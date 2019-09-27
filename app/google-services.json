@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "993038625386",
+    "firebase_url": "https://fir-5efa8.firebaseio.com",
+    "project_id": "fir-5efa8",
+    "storage_bucket": "fir-5efa8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993038625386:android:645e709d24851782713813",
+        "android_client_info": {
+          "package_name": "com.vampyr.instagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993038625386-ufgni47364tps4u3jhrpvj0jg0bf69fg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vampyr.instagram",
+            "certificate_hash": "c321ab8b1c9728c62b046a6dfa9e9f5422860c7e"
+          }
+        },
+        {
+          "client_id": "993038625386-btlm3a2j2pr2dsacbhpg0a7h7m52ukr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_PY7zVsUpvNEXet3W6lqX88EpSSB13_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993038625386-btlm3a2j2pr2dsacbhpg0a7h7m52ukr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
