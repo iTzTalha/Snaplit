@@ -34,10 +34,9 @@
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
                 android:background="@android:color/transparent"
-                android:hint="search..." />
+                android:textColorHint="#000000"
+                android:hint="search..."/>
 
         </androidx.appcompat.widget.Toolbar>
 
