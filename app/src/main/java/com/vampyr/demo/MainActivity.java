@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.vampyr.demo.Fragments.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
     Fragment selectedFragment = null;
 
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/grp1"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_myPosts"
+            android:icon="@drawable/post"
+            android:title="My posts" />
+
+        <item
+            android:id="@+id/nav_Following"
+            android:icon="@drawable/heart"
+            android:title="Following" />
+
+        <item
+            android:id="@+id/nav_Favorite"
+            android:icon="@drawable/favorite"
+            android:title="Favorite" />
+
+    </group>
+
+    <group
+        android:id="@+id/grp2"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_Settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+
+        <item
+            android:id="@+id/nav_Brightness"
+            android:icon="@drawable/ic_brightness"
+            android:title="Dark Theme" />
+
+        <item
+            android:id="@+id/nav_currentVerion"
+            android:icon="@drawable/ic_info"
+            android:title="Current Version" />
+    </group>
+
+
+    <group
+        android:id="@+id/grp3"
+        android:checkableBehavior="none">
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_exit"
+                android:title="Log out" />
+    </group>
+
+</menu>
