@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.vampyr.demo", appContext.getPackageName());
+        assertEquals("com.vampyr.instagram", appContext.getPackageName());
     }
 }
