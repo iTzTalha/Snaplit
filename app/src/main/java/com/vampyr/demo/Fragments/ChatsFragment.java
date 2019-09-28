@@ -32,7 +32,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ChatsFragment extends Fragment {
-
+    /*
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<Users> mUser;
@@ -132,6 +132,6 @@ public class ChatsFragment extends Fragment {
 
             }
         });
-    }
+    }*/
 
 }

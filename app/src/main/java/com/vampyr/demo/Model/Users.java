@@ -8,7 +8,6 @@ public class Users {
     private String imageurl;
     private String bio;
 
-    public Users() {}
 
     public Users(String id, String username, String fullname, String imageurl, String brio) {
         this.id = id;
@@ -17,6 +16,8 @@ public class Users {
         this.imageurl = imageurl;
         this.bio = bio;
     }
+
+    public Users() {}
 
     public String getId() {
         return id;

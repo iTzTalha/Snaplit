@@ -35,6 +35,8 @@ import com.vampyr.demo.R;
  */
 public class ProfileFragment extends Fragment {
 
+    /*
+
     ImageView image_profile,options;
     TextView follwers,following;
     Button profile_button;
@@ -139,5 +141,5 @@ public class ProfileFragment extends Fragment {
     private void SendUserToLoginActivity() {
         Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
         startActivity(loginIntent);
-    }
+    }*/
 }
