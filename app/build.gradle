@@ -46,6 +46,12 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
+//  FirebaseUI for Firebase Realtime Database
+    implementation 'com.firebaseui:firebase-ui-database:6.0.2'
+
+//  EditText in Material Design
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
 // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'
 

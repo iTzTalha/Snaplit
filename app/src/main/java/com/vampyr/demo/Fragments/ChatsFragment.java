@@ -1,6 +1,7 @@
 package com.vampyr.demo.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,8 +22,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.Adapter.UserAdapter;
+import com.vampyr.demo.LoginActivity;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
+import com.vampyr.demo.RegistrationActivity;
+import com.vampyr.demo.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +64,7 @@ public class ChatsFragment extends Fragment {
 
         userAdapter = new UserAdapter(getContext(), mUser);
         recyclerView.setAdapter(userAdapter);
+
 
         //readUser();
         search_bar.addTextChangedListener(new TextWatcher() {
