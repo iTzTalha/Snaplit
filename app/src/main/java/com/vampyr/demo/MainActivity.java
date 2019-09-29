@@ -116,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void SendUserToProfileActivity() {
+        Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(profileIntent);
+    }
+
     private void SendUserToLoginActivity() {
         Intent loginIntent = new Intent(MainActivity.this, StartActivity.class);
         startActivity(loginIntent);
