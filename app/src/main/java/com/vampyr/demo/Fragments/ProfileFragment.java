@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.LoginActivity;
+import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
 
 
@@ -35,11 +35,10 @@ import com.vampyr.demo.R;
  */
 public class ProfileFragment extends Fragment {
 
-    /*
 
-    ImageView image_profile,options;
-    TextView follwers,following;
-    Button profile_button;
+    ImageView image_profile, options;
+    TextView follwers, following, posts, bio,username;
+    Button btn_profile;
 
     FirebaseUser firebaseUser;
     String profileid;
@@ -54,33 +53,36 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profile,container,false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-        profileid = sharedPreferences.getString("profileid" ,"none");
+        profileid = sharedPreferences.getString("profileid", "none");
 
-        image_profile = view.findViewById(R.id.imageProfile);
+        image_profile = view.findViewById(R.id.image_profile);
         options = view.findViewById(R.id.options);
         follwers = view.findViewById(R.id.followers);
         following = view.findViewById(R.id.following);
-        profile_button = view.findViewById(R.id.profile_button);
+        btn_profile = view.findViewById(R.id.edit_profile);
+        posts = view.findViewById(R.id.posts);
+        bio = view.findViewById(R.id.bio);
+        username = view.findViewById(R.id.user_name);
 
-        profile_button.setOnClickListener(new View.OnClickListener() {
+        btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String btn = profile_button.getText().toString();
+                String btn = btn_profile.getText().toString();
 
-                if (btn.equals("Edit Profile")){
+                if (btn.equals("Edit Profile")) {
 
-                }else if (btn.equals("Follow")){
+                } else if (btn.equals("follow")) {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
                             .child("following").child(profileid).setValue(true);
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
                             .child("followers").child(firebaseUser.getUid()).setValue(true);
 
-                }else if (btn.equals("Following")){
+                } else if (btn.equals("following")) {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
                             .child("following").child(profileid).removeValue();
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
@@ -90,44 +92,35 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        return  view;
+        return view;
 
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.profile_options_menu,menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.logout){
+        if (item.getItemId() == R.id.logout) {
             mAuth.signOut();
-           SendUserToLoginActivity();
+            SendUserToLoginActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void userinfo(){
+    private void userinfo() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(profileid);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (getContext() == null){
+                if (getContext() == null) {
                     return;
                 }
 
+                Users user = dataSnapshot.getValue(Users.class);
+                Glide.with(getContext()).load(user.getImageurl()).into(image_profile);
+                username.setText(user.getUsername());
+                bio.setText(user.getBio());
             }
 
             @Override
@@ -141,5 +134,5 @@ public class ProfileFragment extends Fragment {
     private void SendUserToLoginActivity() {
         Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
         startActivity(loginIntent);
-    }*/
+    }
 }

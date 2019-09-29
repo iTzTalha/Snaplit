@@ -98,6 +98,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -190,6 +191,20 @@
 
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/bio"
+                    android:textColor="#000000"/>
 
             </LinearLayout>
 
