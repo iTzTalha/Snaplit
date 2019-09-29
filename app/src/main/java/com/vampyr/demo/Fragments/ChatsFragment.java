@@ -32,7 +32,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ChatsFragment extends Fragment {
-    /*
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
@@ -62,7 +61,7 @@ public class ChatsFragment extends Fragment {
         userAdapter = new UserAdapter(getContext(), mUser);
         recyclerView.setAdapter(userAdapter);
 
-        readUser();
+        //readUser();
         search_bar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -84,44 +83,17 @@ public class ChatsFragment extends Fragment {
         return view;
     }
 
-    private void searchUsers(String s){
+    private void searchUsers(String s) {
 
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").startAt(s).endAt(s+"\uf8ff");
+        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").startAt(s).endAt(s + "\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 mUser.clear();
-                for (DataSnapshot snapshot: dataSnapshot.getChildren() ){
-
-                    Users user = snapshot.getValue(Users.class);
-                    mUser.add(user);
-                }
-
-                userAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void readUser(){
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (search_bar.getText().toString().equals("")){
-
-                    mUser.clear();
-
-                    for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Users user = snapshot.getValue(Users.class);
                         mUser.add(user);
                     }
@@ -136,5 +108,33 @@ public class ChatsFragment extends Fragment {
             }
         });
     }
-*/
+
+    /*
+    private void readUser() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (search_bar.getText().toString().equals("")) {
+
+                    mUser.clear();
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        Users user = snapshot.getValue(Users.class);
+                        mUser.add(user);
+                    }
+
+                    userAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }*/
 }

@@ -106,9 +106,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (menuItem.getItemId()){
             case R.id.nav_logout:
-                loadingBar.setTitle("Signing out");
-                loadingBar.setMessage("Please wait...");
-                loadingBar.show();
+               // loadingBar.setTitle("Signing out");
+               // loadingBar.setMessage("Please wait...");
+               // loadingBar.show();
                 mAuth.signOut();
                 SendUserToLoginActivity();
         }

@@ -129,9 +129,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                 if (dataSnapshot.child(userid).exists()) {
                     button.setText("following");
-                } else {
+                } /*else {
                     button.setText("follow");
-                }
+                }*/
             }
 
             @Override

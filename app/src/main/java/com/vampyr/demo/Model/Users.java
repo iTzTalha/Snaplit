@@ -9,7 +9,7 @@ public class Users {
     private String bio;
 
 
-    public Users(String id, String username, String fullname, String imageurl, String brio) {
+    public Users(String id, String username, String fullname, String imageurl, String bio) {
         this.id = id;
         this.username = username;
         //this.fullname = fullname;
@@ -51,11 +51,11 @@ public class Users {
         this.imageurl = imageurl;
     }
 
-    public String getBrio() {
+    public String getBio() {
         return bio;
     }
 
-    public void setBrio(String brio) {
+    public void setBio(String brio) {
         this.bio = brio;
     }
 }
