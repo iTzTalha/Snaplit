@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment {
 
 
     ImageView image_profile, options;
-    TextView follwers, following, posts, bio,username;
+    TextView follwers, following, posts, bio, username;
     Button btn_profile;
 
     FirebaseUser firebaseUser;
@@ -69,6 +69,18 @@ public class ProfileFragment extends Fragment {
         bio = view.findViewById(R.id.bio);
         username = view.findViewById(R.id.user_name);
 
+        userinfo();
+        getFollowers();
+        //getNrPosts();
+
+        if (profileid.equals(firebaseUser.getUid())){
+
+            btn_profile.setText("Edit Profile");
+        }else {
+
+            checkFollow();
+        }
+
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,17 +108,6 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.logout) {
-            mAuth.signOut();
-            SendUserToLoginActivity();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void userinfo() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(profileid);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -130,9 +131,87 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void checkFollow() {
 
-    private void SendUserToLoginActivity() {
-        Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(loginIntent);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Follow").child(firebaseUser.getUid()).child("following");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.child(profileid).exists()){
+                    btn_profile.setText("following");
+                }else {
+                    btn_profile.setText("follow");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
+    private void getFollowers(){
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Follow").child(profileid).child("followers");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                follwers.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference referencel = FirebaseDatabase.getInstance().getReference()
+                .child("Follow").child(profileid).child("following");
+        referencel.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                following.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+/*
+    private void getNrPosts(){
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int i=0;
+                for (DataSnapshot Snapshot : dataSnapshot.getChildren()){
+
+                    Post posts = snapshot.getValue(Post.class);
+                    if (posts.getPublisher().equals(profileid)){
+                        i++;
+                    }
+                }
+
+                posts.setText(""+i);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }*/
+
 }
