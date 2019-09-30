@@ -39,7 +39,7 @@ public class ProfileFragment extends Fragment {
 
 
     ImageView image_profile, options;
-    TextView follwers, following, posts, bio, username;
+    TextView follwers, following, posts, bio, username,btn_share;
     Button btn_profile;
 
     FirebaseUser firebaseUser;
@@ -63,13 +63,14 @@ public class ProfileFragment extends Fragment {
         profileid = sharedPreferences.getString("profileid", "none");
 
         image_profile = view.findViewById(R.id.image_profile);
-        options = view.findViewById(R.id.options);
+        options = view.findViewById(R.id.share);
         follwers = view.findViewById(R.id.followers);
         following = view.findViewById(R.id.following);
         btn_profile = view.findViewById(R.id.edit_profile);
         posts = view.findViewById(R.id.posts);
         bio = view.findViewById(R.id.bio);
         username = view.findViewById(R.id.user_name);
+
 
         userinfo();
         getFollowers();

@@ -16,8 +16,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground">
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/linearLayout"
@@ -25,21 +25,12 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_lef"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/options"
+                    android:id="@+id/share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="370dp"
                     android:layout_marginEnd="30dp"
-                    android:src="@drawable/ic_share"
+                    android:src="@drawable/ic_share_white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +62,8 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_profile"
                     android:layout_width="80dp"
-                    android:layout_height="80dp" />
+                    android:layout_height="80dp"
+                    android:layout_marginStart="5dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -79,14 +71,21 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="4dp">
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <Button
                         android:id="@+id/edit_profile"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
                         android:layout_gravity="center"
-                        android:layout_marginStart="160dp"
-                        android:alpha="0.25" />
-
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:textAllCaps="false"
+                        android:layout_marginTop="40dp"
+                        android:background="@drawable/rounded_button_profile"
+                        android:textColor="#FFFFFF"/>
+                    </RelativeLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -95,17 +94,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/user_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+                    android:textSize="23sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#000000"
+                    android:textSize="14sp"/>
 
             </LinearLayout>
 
@@ -191,20 +197,6 @@
 
 
                 </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/bio"
-                    android:textColor="#000000"/>
 
             </LinearLayout>
 

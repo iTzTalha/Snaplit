@@ -115,6 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 updateProfile(username.getText().toString()
                         , bio.getText().toString());
+                finish();
             }
         });
     }
@@ -203,7 +204,7 @@ public class ProfileActivity extends AppCompatActivity {
             uploadImage();
         }else {
 
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 }
