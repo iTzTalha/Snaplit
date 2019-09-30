@@ -27,7 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.LoginActivity;
 import com.vampyr.demo.Model.Users;
+import com.vampyr.demo.ProfileActivity;
 import com.vampyr.demo.R;
+import com.vampyr.demo.StartActivity;
 
 
 /**
@@ -87,6 +89,9 @@ public class ProfileFragment extends Fragment {
                 String btn = btn_profile.getText().toString();
 
                 if (btn.equals("Edit Profile")) {
+
+                    Intent editprofileIntent = new Intent(getActivity(), ProfileActivity.class);
+                    startActivity(editprofileIntent);
 
                 } else if (btn.equals("follow")) {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())

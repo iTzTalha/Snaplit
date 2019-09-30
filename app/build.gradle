@@ -52,6 +52,9 @@ dependencies {
 //  EditText in Material Design
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
 
+    //  CropImage
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
 // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'
 
