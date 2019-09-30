@@ -20,7 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.vampyr.demo.Fragments.ChatsFragment;
-import com.vampyr.demo.Fragments.DashboardFragment;
+import com.vampyr.demo.Fragments.DiscoverFragment;
 import com.vampyr.demo.Fragments.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,12 +64,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 switch (menuItem.getItemId()){
-                    case R.id.nav_chats:
+                    case R.id.nav_Home:
                         selectedFragment = new ChatsFragment();
                         break;
 
-                    case R.id.nav_dashboard:
-                        selectedFragment = new DashboardFragment();
+                    case R.id.nav_Discover:
+                        selectedFragment = new DiscoverFragment();
                         break;
 
                     case R.id.nav_profile:
@@ -106,9 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (menuItem.getItemId()){
             case R.id.nav_logout:
-               // loadingBar.setTitle("Signing out");
-               // loadingBar.setMessage("Please wait...");
-               // loadingBar.show();
                 mAuth.signOut();
                 SendUserToLoginActivity();
         }

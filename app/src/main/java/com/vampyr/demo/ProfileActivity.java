@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView close, imageView;
     MaterialEditText username, bio;
 
+    String updatedBio;
+
     FirebaseUser firebaseUser;
 
     private Uri mImageUri;
@@ -60,6 +63,8 @@ public class ProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         bio = findViewById(R.id.bio);
 
+
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -71,6 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Users users = dataSnapshot.getValue(Users.class);
                 username.setText(users.getUsername());
                 bio.setText(users.getBio());
+                Glide.with(getApplicationContext()).load(users.getImageurl()).into(imageView);
 
             }
 
