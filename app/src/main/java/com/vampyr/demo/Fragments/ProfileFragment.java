@@ -1,7 +1,6 @@
 package com.vampyr.demo.Fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.vampyr.demo.LoginActivity;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.ProfileActivity;
 import com.vampyr.demo.R;

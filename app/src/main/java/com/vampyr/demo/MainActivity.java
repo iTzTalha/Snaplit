@@ -1,14 +1,17 @@
 package com.vampyr.demo;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -19,21 +22,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.Fragments.HomeFragment;
 import com.vampyr.demo.Fragments.DiscoverFragment;
 import com.vampyr.demo.Fragments.ProfileFragment;
+import com.vampyr.demo.Model.Users;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     boolean doubleBackToExitPressedOnce = false;
-
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
@@ -44,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseUser firebaseUser;
     private ProgressDialog loadingBar;
 
+    ImageView nav_image;
+    TextView nav_username;
 
 
     @Override
@@ -55,18 +69,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuth = FirebaseAuth.getInstance();
         loadingBar = new ProgressDialog(this);
 
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        //Drawer Navigation Layout
 
         drawerLayout = findViewById(R.id.drawer_layout);
-
+        //toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headView = navigationView.getHeaderView(0);
+        nav_image = headView.findViewById(R.id.nav_image);
+        nav_username = headView.findViewById(R.id.nav_username);
+        nav_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Users user = dataSnapshot.getValue(Users.class);
+                Glide.with(getApplicationContext()).load(user.getImageurl()).into(nav_image);
+                nav_username.setText(user.getUsername());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //Drawer Navigation Ends Here
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(  toggle);
         toggle.syncState();
 
+        //Bottom Navigation Layout
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
@@ -149,11 +192,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
-    }
-
-    private void SendUserToProfileActivity() {
-        Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
-        startActivity(profileIntent);
     }
 
     private void SendUserToLoginActivity() {
