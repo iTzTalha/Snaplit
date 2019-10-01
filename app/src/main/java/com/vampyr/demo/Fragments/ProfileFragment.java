@@ -1,6 +1,7 @@
 package com.vampyr.demo.Fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,7 +28,6 @@ import com.vampyr.demo.LoginActivity;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.ProfileActivity;
 import com.vampyr.demo.R;
-import com.vampyr.demo.StartActivity;
 
 
 /**
@@ -47,6 +48,12 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
