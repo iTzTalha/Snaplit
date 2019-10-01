@@ -1,11 +1,14 @@
 package com.vampyr.demo;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -74,10 +77,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 switch (menuItem.getItemId()){
                     case R.id.nav_Home:
+                        CloseDrawer();
                         selectedFragment = new HomeFragment();
                         break;
 
                     case R.id.nav_Discover:
+                        CloseDrawer();
                         selectedFragment = new DiscoverFragment();
                         break;
 
@@ -85,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         SharedPreferences.Editor editor = getSharedPreferences("PREFS",MODE_PRIVATE).edit();
                         editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         editor.apply();
+                        CloseDrawer();
                         selectedFragment = new ProfileFragment();
                         break;
                 }
@@ -124,9 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
 
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
+        CloseDrawer();
     }
 
     @Override
@@ -139,6 +143,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return true;
+    }
+
+    public void CloseDrawer(){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 
     private void SendUserToProfileActivity() {

@@ -1,18 +1,23 @@
 package com.vampyr.demo;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
     private DatabaseReference rootreference;
+    private ConstraintLayout constraintLayout;
 
 
     @Override
@@ -64,6 +70,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             @Override
             public void onClick(View view) {
                 AllowUserToLogin();
+            }
+        });
+
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             }
         });
     }
@@ -114,6 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         creatNewAccount = (TextView) findViewById(R.id.signupText);
         loadingBar = new ProgressDialog(this);
         password.setOnKeyListener(this);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.bgrelativeLayout);
     }
 
     private void SendUserToMainActivity() {
@@ -126,5 +141,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     private void SendUserToRegisterActivity() {
         Intent registerActivity = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivity(registerActivity);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

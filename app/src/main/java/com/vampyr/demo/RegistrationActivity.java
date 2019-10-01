@@ -1,11 +1,13 @@
 package com.vampyr.demo;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +36,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
     FirebaseAuth mAuth;
     ProgressDialog loadingBar;
     DatabaseReference reference;
+
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                 } else {
                     createNewAccount(UserName, E_mail, userPassword);
                 }
+            }
+        });
+
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             }
         });
     }
@@ -124,6 +137,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
         alreadyhaveAccount = (TextView) findViewById(R.id.loginText);
         loadingBar = new ProgressDialog(this);
         password.setOnKeyListener(this);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.bg_regLayout);
     }
 
     private void SendUserToLoginActivity() {

@@ -4,14 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +43,8 @@ import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    LinearLayout linearLayout;
+
     TextView save, tv_change;
     ImageView close, imageView;
     MaterialEditText username, bio;
@@ -53,6 +59,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        linearLayout = findViewById(R.id.profileActivityLayout);
 
         save = findViewById(R.id.save);
         tv_change = findViewById(R.id.tv_change);
@@ -120,6 +128,14 @@ public class ProfileActivity extends AppCompatActivity {
                 updateProfile(username.getText().toString()
                         , bio.getText().toString());
                 finish();
+            }
+        });
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             }
         });
     }
