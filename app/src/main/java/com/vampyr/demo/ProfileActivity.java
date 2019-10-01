@@ -43,8 +43,6 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView close, imageView;
     MaterialEditText username, bio;
 
-    String updatedBio;
-
     FirebaseUser firebaseUser;
 
     private Uri mImageUri;

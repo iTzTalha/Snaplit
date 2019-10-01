@@ -14,12 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.vampyr.demo.Fragments.ChatsFragment;
+import com.vampyr.demo.Fragments.HomeFragment;
 import com.vampyr.demo.Fragments.DiscoverFragment;
 import com.vampyr.demo.Fragments.ProfileFragment;
 
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ChatsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new HomeFragment()).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 switch (menuItem.getItemId()){
                     case R.id.nav_Home:
-                        selectedFragment = new ChatsFragment();
+                        selectedFragment = new HomeFragment();
                         break;
 
                     case R.id.nav_Discover:
@@ -80,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
                 }
 
-                if (selectedFragment != null){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
+                if (selectedFragment != null) {
+                   getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                 }
 
                 return true;
@@ -122,4 +124,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent loginIntent = new Intent(MainActivity.this, StartActivity.class);
         startActivity(loginIntent);
     }
+
 }

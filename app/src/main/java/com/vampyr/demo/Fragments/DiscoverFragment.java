@@ -49,7 +49,6 @@ public class DiscoverFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
 
-
         recyclerView = view.findViewById(R.id.recyler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -85,6 +84,8 @@ public class DiscoverFragment extends Fragment {
 
         return view;
     }
+
+
 
     private void searchUsers(String s) {
 
@@ -140,4 +141,5 @@ public class DiscoverFragment extends Fragment {
             }
         });
     }
+
 }
