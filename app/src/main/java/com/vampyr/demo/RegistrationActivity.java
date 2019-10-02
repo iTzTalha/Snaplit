@@ -33,6 +33,8 @@ import java.util.HashMap;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnKeyListener {
 
+    View view = this.getCurrentFocus();
+
     Button signUpButton;
     EditText username, password, email;
     TextView alreadyhaveAccount;
@@ -64,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 loadingBar.setTitle("Creating new account");
                 loadingBar.setMessage("Please wait, While we are creating new account for you...");
                 loadingBar.setCanceledOnTouchOutside(true);
@@ -81,11 +83,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getChildrenCount() > 0){
                             loadingBar.dismiss();
-                            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                            hideKeyboard();
                             Toast.makeText(RegistrationActivity.this, "Username is taken", Toast.LENGTH_SHORT).show();
-                            InputMethodManager imm2 = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                            imm2.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                             username.setText("");
                             email.setText("");
                             password.setText("");
@@ -144,13 +143,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
 
                                             if (task.isSuccessful()) {
                                                 loadingBar.dismiss();
-                                                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                                                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                                                Toast.makeText(RegistrationActivity.this, "Registered successfully, Verification Email sent to "+ currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+                                                hideKeyboard();
+                                                Toast.makeText(RegistrationActivity.this, "Verification Email sent to "+ currentUser.getEmail(), Toast.LENGTH_SHORT).show();
                                                 password.setText("");
                                                 email.setText("");
-                                                InputMethodManager imm2 = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                                                imm2.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                                             }else {
                                                 String message = task.getException().toString();
                                                 Toast.makeText(RegistrationActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
@@ -193,5 +189,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
         }
 
         return false;
+    }
+
+    public void hideKeyboard(){
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }
