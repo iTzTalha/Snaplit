@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     private ProgressDialog loadingBar;
     private DatabaseReference rootreference;
     private ConstraintLayout constraintLayout;
+    private ImageView phoneImage;
 
 
     @Override
@@ -74,11 +76,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             }
         });
 
+        phoneImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,PhoneLoginActivity.class));
+                finish();
+            }
+        });
+
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                hideKeyboard();
             }
         });
     }
@@ -137,6 +146,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         loadingBar = new ProgressDialog(this);
         password.setOnKeyListener(this);
         constraintLayout = (ConstraintLayout) findViewById(R.id.bgrelativeLayout);
+        phoneImage = (ImageView) findViewById(R.id.phoneImage);
     }
 
     private void SendUserToMainActivity() {

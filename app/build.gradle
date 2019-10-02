@@ -53,7 +53,10 @@ dependencies {
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
 
     //  CropImage
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
+    // Country Code Picker
+    implementation 'com.hbb20:ccp:2.3.2'
 
 // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'

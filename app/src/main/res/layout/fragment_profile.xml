@@ -5,7 +5,8 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.ProfileFragment">
+    tools:context=".Fragments.ProfileFragment"
+    android:screenOrientation="portrait">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar"

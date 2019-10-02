@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     tools:context="com.vampyr.demo.StartActivity"
-    >
+    android:screenOrientation="portrait">
 
     <Button
         android:id="@+id/registerButton2"

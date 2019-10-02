@@ -12,9 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PhoneLoginActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".StartActivity"
-            android:theme="@style/AppTheme.windowFullscreen">
+            android:theme="@style/AppTheme.windowFullscreen"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,17 +25,22 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegistrationActivity"
-            android:theme="@style/AppTheme.windowFullscreen" />
+            android:theme="@style/AppTheme.windowFullscreen"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.windowFullscreen" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".PostsActivity"/>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+            android:theme="@style/AppTheme.windowFullscreen"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ProfileActivity" android:screenOrientation="portrait" />
+        <activity android:name=".PostsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>
