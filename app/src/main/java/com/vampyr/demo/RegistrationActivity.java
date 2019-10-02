@@ -22,8 +22,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -36,6 +40,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
     FirebaseAuth mAuth;
     ProgressDialog loadingBar;
     DatabaseReference reference;
+    String currentUserId;
 
     ConstraintLayout constraintLayout;
 
@@ -64,21 +69,42 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                 loadingBar.setMessage("Please wait, While we are creating new account for you...");
                 loadingBar.setCanceledOnTouchOutside(true);
                 loadingBar.show();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
-                String UserName = username.getText().toString();
-                String userPassword = password.getText().toString();
-                String E_mail = email.getText().toString();
+                final String UserName = username.getText().toString();
+                final String userPassword = password.getText().toString();
+                final String E_mail = email.getText().toString();
+                Query usernameQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").equalTo(UserName);
+                usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getChildrenCount() > 0){
+                            loadingBar.dismiss();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                            Toast.makeText(RegistrationActivity.this, "Username is taken", Toast.LENGTH_SHORT).show();
+                            InputMethodManager imm2 = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                            imm2.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                            username.setText("");
+                            email.setText("");
+                            password.setText("");
+                        }else if (TextUtils.isEmpty(userPassword) || TextUtils.isEmpty(E_mail) || TextUtils.isEmpty(UserName)){
+                            loadingBar.dismiss();
+                            Toast.makeText(RegistrationActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                        }else if (userPassword.length() < 6) {
+                            loadingBar.dismiss();
+                            Toast.makeText(RegistrationActivity.this, "Password must be atleast 6 character", Toast.LENGTH_SHORT).show();
+                        }else {
+                            createNewAccount(UserName, E_mail, userPassword);
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                if (TextUtils.isEmpty(userPassword) || TextUtils.isEmpty(E_mail) || TextUtils.isEmpty(UserName)) {
-                    loadingBar.dismiss();
-                    Toast.makeText(RegistrationActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
-                } else if (userPassword.length() < 6) {
-                    loadingBar.dismiss();
-                    Toast.makeText(RegistrationActivity.this, "Password must be atleast 6 character", Toast.LENGTH_SHORT).show();
-                } else {
-                    createNewAccount(UserName, E_mail, userPassword);
-                }
+                    }
+                });
             }
         });
 
@@ -91,7 +117,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
         });
     }
 
-    private void createNewAccount(final String username, String Email, String UserPassword) {
+    private void createNewAccount(final String username, final String Email, String UserPassword) {
 
         mAuth.createUserWithEmailAndPassword(Email, UserPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -99,27 +125,42 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
-                            FirebaseUser currentUser = mAuth.getCurrentUser();
-                            String currentUserId = mAuth.getUid();
-
-                            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
-
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("id", currentUserId);
-                            hashMap.put("username", username.toLowerCase());
-                            hashMap.put("bio", "");
-                            hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/fir-5efa8.appspot.com/o/profileicon.png?alt=media&token=e32c352b-05e1-4ff8-b56e-74a1e01270f4");
-
-                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            final FirebaseUser currentUser = mAuth.getCurrentUser();
+                            currentUserId = mAuth.getUid();
+                            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+                                    reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
-                                    if (task.isSuccessful()) {
-                                        loadingBar.dismiss();
-                                        SendUserToMainActivity();
-                                    }
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("id", currentUserId);
+                                    hashMap.put("username", username.toLowerCase());
+                                    hashMap.put("bio", "");
+                                    hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/fir-5efa8.appspot.com/o/user.png?alt=media&token=f530971d-3eed-4864-bb49-65ca593f9427");
+
+                                    reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            if (task.isSuccessful()) {
+                                                loadingBar.dismiss();
+                                                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                                Toast.makeText(RegistrationActivity.this, "Registered successfully, Verification Email sent to "+ currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+                                                password.setText("");
+                                                email.setText("");
+                                                InputMethodManager imm2 = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                                imm2.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                            }else {
+                                                String message = task.getException().toString();
+                                                Toast.makeText(RegistrationActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                                                loadingBar.dismiss();
+                                            }
+                                        }
+                                    });
                                 }
                             });
+
                         } else {
                             String message = task.getException().toString();
                             Toast.makeText(RegistrationActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
@@ -144,14 +185,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
         Intent loginIntent = new Intent(RegistrationActivity.this, LoginActivity.class);
         startActivity(loginIntent);
     }
-
-    private void SendUserToMainActivity() {
-        Intent mainActivity = new Intent(RegistrationActivity.this, MainActivity.class);
-        mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(mainActivity);
-        finish();
-    }
-
 
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {

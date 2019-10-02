@@ -53,7 +53,7 @@ public class StartActivity extends AppCompatActivity{
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (currentUser != null){
+        if (currentUser != null && currentUser.isEmailVerified()){
             SendUserToMainActivity();
         }
     }

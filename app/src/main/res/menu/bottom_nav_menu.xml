@@ -12,6 +12,16 @@
         android:title="Discover" />
 
     <item
+        android:id="@+id/nav_addPosts"
+        android:icon="@drawable/ic_addposts"
+        android:title="" />
+
+    <item
+        android:id="@+id/nav_chat"
+        android:icon="@drawable/ic_chat"
+        android:title="Chats" />
+
+    <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_person_black_24dp"
         android:title="Me" />

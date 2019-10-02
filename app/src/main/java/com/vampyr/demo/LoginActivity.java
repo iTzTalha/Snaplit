@@ -69,6 +69,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 AllowUserToLogin();
             }
         });
@@ -97,19 +99,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                rootreference = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-                                rootreference.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        loadingBar.dismiss();
-                                        SendUserToMainActivity();
-                                    }
+                                if (mAuth.getCurrentUser().isEmailVerified()){
+                                    rootreference = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+                                    rootreference.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            loadingBar.dismiss();
+                                            SendUserToMainActivity();
+                                        }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }else {
+                                    loadingBar.dismiss();
+                                    Toast.makeText(LoginActivity.this, "Please verify your Email address", Toast.LENGTH_SHORT).show();
+                                    Email.setText("");
+                                    password.setText("");
+                                }
                             }else{
                                 loadingBar.dismiss();
                                 String message = task.getException().toString();

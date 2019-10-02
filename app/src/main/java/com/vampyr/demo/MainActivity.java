@@ -83,8 +83,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,ProfileActivity.class);
-                startActivity(intent);
+                CloseDrawer();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+            }
+        });
+        nav_username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CloseDrawer();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
             }
         });
 
@@ -105,41 +112,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Drawer Navigation Ends Here
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(  toggle);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         //Bottom Navigation Layout
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.nav_Home:
                         CloseDrawer();
                         selectedFragment = new HomeFragment();
+                        setTitle("Home");
                         break;
 
                     case R.id.nav_Discover:
                         CloseDrawer();
                         selectedFragment = new DiscoverFragment();
+                        setTitle("Discover");
                         break;
 
+                    case R.id.nav_addPosts:
+                        CloseDrawer();
+                        // selectedFragment = new PostFragment();
+                        startActivity(new Intent(MainActivity.this, PostsActivity.class));
+                        break;
+                    /*
+                    case R.id.nav_chat:
+                        CloseDrawer();
+                        selectedFragment = new ChatsFragment();
+                        setTitle("Chats");
+                        break;
+                     */
                     case R.id.nav_profile:
-                        SharedPreferences.Editor editor = getSharedPreferences("PREFS",MODE_PRIVATE).edit();
+                        SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                         editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         editor.apply();
                         CloseDrawer();
                         selectedFragment = new ProfileFragment();
+                        setTitle("Me");
                         break;
                 }
 
                 if (selectedFragment != null) {
-                   getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                 }
 
                 return true;
@@ -154,11 +176,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Checking for fragment count on backstack
         if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
             getSupportFragmentManager().popBackStack();
-        }
-
-        else if (!doubleBackToExitPressedOnce) {
+        } else if (!doubleBackToExitPressedOnce) {
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this,"Tap again to exit.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Tap again to exit.", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
 
@@ -179,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.nav_logout:
                 mAuth.signOut();
                 SendUserToLoginActivity();
@@ -188,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void CloseDrawer(){
+    public void CloseDrawer() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
