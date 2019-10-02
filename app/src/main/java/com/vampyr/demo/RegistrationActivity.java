@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -44,6 +46,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
     DatabaseReference reference;
     String currentUserId;
 
+
     ConstraintLayout constraintLayout;
 
     @Override
@@ -68,11 +71,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
             @Override
             public void onClick(final View view) {
                 loadingBar.setTitle("Creating new account");
-                loadingBar.setMessage("Please wait, While we are creating new account for you...");
+                loadingBar.setMessage("Please wait...");
                 loadingBar.setCanceledOnTouchOutside(true);
                 loadingBar.show();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
                 final String UserName = username.getText().toString();
                 final String userPassword = password.getText().toString();
@@ -107,12 +108,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
             }
         });
 
-        constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyboard();
-            }
-        });
     }
 
     private void createNewAccount(final String username, final String Email, String UserPassword) {
@@ -134,7 +129,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                                     hashMap.put("id", currentUserId);
                                     hashMap.put("username", username.toLowerCase());
                                     hashMap.put("bio", "");
-                                    hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/fir-5efa8.appspot.com/o/user.png?alt=media&token=f530971d-3eed-4864-bb49-65ca593f9427");
+                                    hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/fir-5efa8.appspot.com/o/profile-placeholder.png?alt=media&token=0f72e718-b845-4e7b-865c-76d08340f9a8");
+                                    hashMap.put("email",Email);
 
                                     reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -142,10 +138,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
 
                                             if (task.isSuccessful()) {
                                                 loadingBar.dismiss();
-                                                hideKeyboard();
                                                 Toast.makeText(RegistrationActivity.this, "Verification Email sent to "+ currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-                                                password.setText("");
-                                                email.setText("");
+                                                startActivity(new Intent(RegistrationActivity.this,LoginActivity.class));
                                             }else {
                                                 String message = task.getException().toString();
                                                 Toast.makeText(RegistrationActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
@@ -196,4 +190,5 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
 }

@@ -8,18 +8,28 @@ public class Users {
     private String imageurl;
     private String bio;
     private String phonenumber;
+    private String Email;
 
 
-    public Users(String id, String username, String fullname, String imageurl, String bio) {
+    public Users(String id, String username, String fullname, String imageurl, String bio, String phonenumber, String Email) {
         this.id = id;
         this.username = username;
         this.fullname = fullname;
         this.imageurl = imageurl;
         this.bio = bio;
         this.phonenumber = phonenumber;
+        this.Email = Email;
     }
 
     public Users() {}
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
 
     public String getPhonenumber() {
         return phonenumber;

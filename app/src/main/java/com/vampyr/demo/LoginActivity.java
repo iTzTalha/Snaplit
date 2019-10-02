@@ -84,12 +84,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             }
         });
 
-        constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyboard();
-            }
-        });
     }
 
     private void AllowUserToLogin() {
