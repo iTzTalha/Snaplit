@@ -31,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.vampyr.demo.Fragments.PostFragment;
 
 import java.util.HashMap;
 
@@ -167,8 +168,8 @@ public class PostsActivity extends AppCompatActivity {
 
             Image_Added.setImageURI(imageUri);
         }else {
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(PostsActivity.this, MainActivity.class));
+           // Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(PostsActivity.this, PostFragment.class));
             finish();
         }
     }

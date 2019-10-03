@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.Fragments.HomeFragment;
 import com.vampyr.demo.Fragments.DiscoverFragment;
+import com.vampyr.demo.Fragments.PostFragment;
 import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
 
@@ -144,8 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     case R.id.nav_addPosts:
                         CloseDrawer();
-                        // selectedFragment = new PostFragment();
-                        startActivity(new Intent(MainActivity.this, PostsActivity.class));
+                         selectedFragment = new PostFragment();
                         break;
                     /*
                     case R.id.nav_chat:
