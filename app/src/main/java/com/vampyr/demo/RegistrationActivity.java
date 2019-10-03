@@ -70,6 +70,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+
+                hideKeyboard();
+
                 loadingBar.setTitle("Creating new account");
                 loadingBar.setMessage("Please wait...");
                 loadingBar.setCanceledOnTouchOutside(true);
@@ -85,16 +88,28 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                         if (dataSnapshot.getChildrenCount() > 0){
                             loadingBar.dismiss();
                             hideKeyboard();
-                            Toast.makeText(RegistrationActivity.this, "Username is taken", Toast.LENGTH_SHORT).show();
+                            username.setError("Username is taken");
                             username.setText("");
                             email.setText("");
                             password.setText("");
-                        }else if (TextUtils.isEmpty(userPassword) || TextUtils.isEmpty(E_mail) || TextUtils.isEmpty(UserName)){
+                        }else if (TextUtils.isEmpty(UserName)){
                             loadingBar.dismiss();
-                            Toast.makeText(RegistrationActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                            username.setError("Please enter the username");
+                            username.requestFocus();
+                            return;
+                        }else if (TextUtils.isEmpty(E_mail) ){
+                            loadingBar.dismiss();
+                            email.setError("Please enter the email");
+                            email.requestFocus();
+                            return;
+                        }else if (TextUtils.isEmpty(userPassword)) {
+                            loadingBar.dismiss();
+                            password.setError("Please enter the password");
+                            password.requestFocus();
+                            return;
                         }else if (userPassword.length() < 6) {
                             loadingBar.dismiss();
-                            Toast.makeText(RegistrationActivity.this, "Password must be atleast 6 character", Toast.LENGTH_SHORT).show();
+                            password.setError("Password must be at least 6 character");
                         }else {
                             createNewAccount(UserName, E_mail, userPassword);
                         }
@@ -142,7 +157,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                                                 startActivity(new Intent(RegistrationActivity.this,LoginActivity.class));
                                             }else {
                                                 String message = task.getException().toString();
-                                                Toast.makeText(RegistrationActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(RegistrationActivity.this, "Error: "+message , Toast.LENGTH_SHORT).show();
                                                 loadingBar.dismiss();
                                             }
                                         }

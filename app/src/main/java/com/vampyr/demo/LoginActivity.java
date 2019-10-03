@@ -89,9 +89,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     private void AllowUserToLogin() {
         String userPassword = password.getText().toString();
         String E_mail = Email.getText().toString();
-        if(TextUtils.isEmpty(userPassword) || TextUtils.isEmpty(E_mail)){
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
-        } else{
+        if(TextUtils.isEmpty(E_mail)){
+            loadingBar.dismiss();
+            Email.setError("Please enter the email");
+            Email.requestFocus();
+            return;
+        } else if (TextUtils.isEmpty(userPassword)) {
+            loadingBar.dismiss();
+            password.setError("Please enter the password");
+            password.requestFocus();
+            return;
+        }else{
             loadingBar.setTitle("Sign in");
             loadingBar.setMessage("Please wait...");
             loadingBar.setCanceledOnTouchOutside(true);

@@ -31,6 +31,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hbb20.CountryCodePicker;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.w3c.dom.Text;
 
@@ -41,7 +42,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
     View view = this.getCurrentFocus();
 
-    private EditText phoneNumberText, verifyText;
+    private MaterialEditText phoneNumberText, verifyText;
     private Button btn_submit, btn_login;
     private ImageView btn_backToLogin;
     private TextView logintocontinue,resendCode;
@@ -61,8 +62,8 @@ public class PhoneLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_login);
 
-        verifyText = findViewById(R.id.editVerifyText);
-        phoneNumberText = findViewById(R.id.editPhoneText);
+        verifyText = findViewById(R.id.editVerifyCode);
+        phoneNumberText = findViewById(R.id.editPhoneNumber);
         btn_submit = findViewById(R.id.submitPhoneNumber);
         btn_backToLogin = findViewById(R.id.btn_phoneback);
         btn_login = findViewById(R.id.loginPhone);
@@ -83,7 +84,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                 String phoneNumber = ccp.getFullNumberWithPlus();
 
                 if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() < 10) {
-                    phoneNumberText.setError("Enter valid code");
+                    phoneNumberText.setError("Enter valid Phone number");
                     phoneNumberText.requestFocus();
                     return;
                 } else {
@@ -201,7 +202,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             loadingBar.dismiss();
-                            Toast.makeText(PhoneLoginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(PhoneLoginActivity.this,PhoneProfileActivity.class));
 
                         } else {
 

@@ -65,8 +65,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editPhoneText"
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/editPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
@@ -90,8 +90,8 @@
             android:layout_marginTop="20sp"/>
 
 
-        <EditText
-            android:id="@+id/editVerifyText"
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/editVerifyCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Verification Code"
