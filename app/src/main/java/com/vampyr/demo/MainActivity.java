@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vampyr.demo.Fragments.ChatFragment;
 import com.vampyr.demo.Fragments.HomeFragment;
 import com.vampyr.demo.Fragments.DiscoverFragment;
 import com.vampyr.demo.Fragments.PostFragment;
@@ -147,13 +148,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         CloseDrawer();
                          selectedFragment = new PostFragment();
                         break;
-                    /*
+
                     case R.id.nav_chat:
                         CloseDrawer();
-                        selectedFragment = new ChatsFragment();
+                        selectedFragment = new ChatFragment();
                         setTitle("Chats");
                         break;
-                     */
+
                     case R.id.nav_profile:
                         SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                         editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());

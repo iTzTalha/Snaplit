@@ -40,8 +40,6 @@ import java.util.concurrent.TimeUnit;
 
 public class PhoneLoginActivity extends AppCompatActivity {
 
-    View view = this.getCurrentFocus();
-
     private MaterialEditText phoneNumberText, verifyText;
     private Button btn_submit, btn_login;
     private ImageView btn_backToLogin;
