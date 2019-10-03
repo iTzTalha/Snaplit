@@ -55,7 +55,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressDialog loadingBar;
 
-    CountryCodePicker ccp;
+    com.rilixtech.widget.countrycodepicker.CountryCodePicker ccp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +70,9 @@ public class PhoneLoginActivity extends AppCompatActivity {
         logintocontinue = findViewById(R.id.logintocontinue);
         resendCode = findViewById(R.id.resendCode);
 
-        ccp = (CountryCodePicker) findViewById(R.id.ccp);
-        ccp.registerCarrierNumberEditText(phoneNumberText);
+        ccp = (com.rilixtech.widget.countrycodepicker.CountryCodePicker) findViewById(R.id.CCP);
+        ccp.registerPhoneNumberTextView(phoneNumberText);
+        ccp.enableHint(false);
 
         loadingBar = new ProgressDialog(this);
 
@@ -126,7 +127,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                 String verificationCode = verifyText.getText().toString();
 
                 if (TextUtils.isEmpty(verificationCode)) {
-                    verifyText.setError("Invalid Code");
+                    verifyText.setError("Please the phone number");
                     verifyText.requestFocus();
                     return;
                 } else {

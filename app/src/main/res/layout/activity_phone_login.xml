@@ -53,17 +53,20 @@
             android:textColor="#000"
             android:textStyle="bold"/>
 
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/ccp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ccp_defaultNameCode="IN"
-            android:layout_marginTop="30dp"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                android:id="@+id/CCP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_defaultNameCode="IN"
+                app:ccp_enableHint="false"
+                app:ccp_hintExampleNumber="false"
+                android:layout_marginTop="37dp"/>
+
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/editPhoneNumber"
