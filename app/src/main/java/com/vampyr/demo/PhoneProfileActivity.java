@@ -49,6 +49,7 @@ public class PhoneProfileActivity extends AppCompatActivity {
     ImageView close, imageView;
     MaterialEditText username;
 
+    FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
 
     private Uri mImageUri;
@@ -66,6 +67,7 @@ public class PhoneProfileActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image_profile);
         username = findViewById(R.id.username);
 
+        mAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -229,6 +231,48 @@ public class PhoneProfileActivity extends AppCompatActivity {
 
             //  Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (firebaseUser == null){
+            SendUserToLoginActivity();
+        }else{
+            verifyUserExistance();
+        }
+    }
+
+    private void SendUserToLoginActivity() {
+        Intent loginIntent = new Intent(PhoneProfileActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
+    }
+
+    private void verifyUserExistance() {
+        String currentUid = mAuth.getCurrentUser().getUid();
+        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("Users");
+        firebaseDatabase.child(currentUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.child("username").exists()){
+                    return;
+                }else {
+                    Intent settingIntent = new Intent(PhoneProfileActivity.this,ProfileActivity.class);
+                    settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(settingIntent);
+                    finish();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void hideKeyboard(){

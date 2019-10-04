@@ -90,7 +90,9 @@ public class PhoneLoginActivity extends AppCompatActivity {
                     phoneNumberText.setError("Enter valid Phone number");
                     phoneNumberText.requestFocus();
                     return;
-                } else {
+                }
+
+                else {
 
                     loadingBar.setTitle("Phone verification");
                     loadingBar.setMessage("Sending verification code...");
@@ -150,7 +152,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
 
-                signInWithPhoneAuthCredential(phoneAuthCredential);
+            signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
             @Override
@@ -159,7 +161,6 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     // Invalid request
-
                     loadingBar.dismiss();
                     phoneNumberText.setError("Invalid phone number");
                     phoneNumberText.requestFocus();
@@ -169,11 +170,15 @@ public class PhoneLoginActivity extends AppCompatActivity {
                     logintocontinue.setVisibility(View.VISIBLE);
                     verifyText.setVisibility(View.INVISIBLE);
                     btn_login.setVisibility(View.INVISIBLE);
-                } else if (e instanceof FirebaseTooManyRequestsException) {
-                    // The SMS quota for the project has been exceeded
 
-                    verifyText.setError("You're sending too many verification code, Please try again later");
+                }else if (e instanceof FirebaseTooManyRequestsException) {
+                    // The SMS quota for the project has been exceeded
+                    loadingBar.dismiss();
+                    phoneNumberText.setError("You're sending too many verification code, Please try again later");
+                    phoneNumberText.requestFocus();
+                    return;
                 }
+
             }
 
             @Override
