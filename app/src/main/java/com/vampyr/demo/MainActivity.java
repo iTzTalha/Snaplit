@@ -166,39 +166,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        verifyUserExistance();
-        //check if email is verified here later
-    }
-
-    private void verifyUserExistance() {
-
-        String currentUid = mAuth.getCurrentUser().getUid();
-        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("Users");
-        firebaseDatabase.child(currentUid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.child("username").exists()){
-                   return;
-                }else {
-                    Intent settingIntent = new Intent(MainActivity.this,ProfileActivity.class);
-                    settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(settingIntent);
-                    finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    @Override
     public void onBackPressed() {
 
         //Checking for fragment count on backstack

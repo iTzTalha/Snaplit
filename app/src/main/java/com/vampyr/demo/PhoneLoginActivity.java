@@ -227,7 +227,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.getValue() != null) {
                                         //it means user already registered
-                                        startActivity(new Intent(PhoneLoginActivity.this, MainActivity.class));
+                                        startActivity(new Intent(PhoneLoginActivity.this, VerificationActivity.class));
                                         finish();
 
                                     } else {
@@ -249,7 +249,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
                                                 if (task.isSuccessful()) {
                                                     loadingBar.dismiss();
-                                                    Intent profileIntent = new Intent(PhoneLoginActivity.this,MainActivity.class);
+                                                    Intent profileIntent = new Intent(PhoneLoginActivity.this,VerificationActivity.class);
                                                     startActivity(profileIntent);
                                                     finish();
 

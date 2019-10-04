@@ -160,7 +160,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                                             if (task.isSuccessful()) {
                                                 loadingBar.dismiss();
                                                 Toast.makeText(RegistrationActivity.this, "Verification Email sent to "+ currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+                                                mAuth.signOut();
                                                 startActivity(new Intent(RegistrationActivity.this,LoginActivity.class));
+                                                finish();
                                             }else {
                                                 String message = task.getException().toString();
                                                 Toast.makeText(RegistrationActivity.this, "Error: "+message , Toast.LENGTH_SHORT).show();

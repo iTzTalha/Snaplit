@@ -115,6 +115,7 @@
                     android:maxLines="1"
                     android:padding="16dp"
                     android:text="Edit Bio"
+                    android:hint="Edit Bio"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
