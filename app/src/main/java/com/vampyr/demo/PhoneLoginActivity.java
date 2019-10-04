@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -49,6 +50,9 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
+
+    String phoneNumber;
+    String currentUserId;
 
     FirebaseAuth mAuth;
     ProgressDialog loadingBar;
@@ -80,7 +84,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //String phoneNumber = phoneNumberText.getText().toString();
-                String phoneNumber = ccp.getFullNumberWithPlus();
+                phoneNumber = ccp.getFullNumberWithPlus();
 
                 if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() < 10) {
                     phoneNumberText.setError("Enter valid Phone number");
@@ -125,7 +129,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                 String verificationCode = verifyText.getText().toString();
 
                 if (TextUtils.isEmpty(verificationCode)) {
-                    verifyText.setError("Please the phone number");
+                    verifyText.setError("Invalid code");
                     verifyText.requestFocus();
                     return;
                 } else {
@@ -146,21 +150,30 @@ public class PhoneLoginActivity extends AppCompatActivity {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
 
+                signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
 
-                loadingBar.dismiss();
-                phoneNumberText.setError("Invalid phone number");
-                phoneNumberText.requestFocus();
 
-                phoneNumberText.setVisibility(View.VISIBLE);
-                btn_submit.setVisibility(View.VISIBLE);
-                logintocontinue.setVisibility(View.VISIBLE);
-                verifyText.setVisibility(View.INVISIBLE);
-                btn_login.setVisibility(View.INVISIBLE);
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    // Invalid request
 
+                    loadingBar.dismiss();
+                    phoneNumberText.setError("Invalid phone number");
+                    phoneNumberText.requestFocus();
+
+                    phoneNumberText.setVisibility(View.VISIBLE);
+                    btn_submit.setVisibility(View.VISIBLE);
+                    logintocontinue.setVisibility(View.VISIBLE);
+                    verifyText.setVisibility(View.INVISIBLE);
+                    btn_login.setVisibility(View.INVISIBLE);
+                } else if (e instanceof FirebaseTooManyRequestsException) {
+                    // The SMS quota for the project has been exceeded
+
+                    verifyText.setError("You're sending too many verification code, Please try again later");
+                }
             }
 
             @Override
@@ -200,8 +213,30 @@ public class PhoneLoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            loadingBar.dismiss();
-                            startActivity(new Intent(PhoneLoginActivity.this,PhoneProfileActivity.class));
+                            final FirebaseUser currentUser = mAuth.getCurrentUser();
+                            currentUserId = mAuth.getUid();
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
+
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("phone", phoneNumber);
+                            hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/fir-5efa8.appspot.com/o/profile-placeholder.png?alt=media&token=0f72e718-b845-4e7b-865c-76d08340f9a8");
+
+                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if (task.isSuccessful()) {
+                                        loadingBar.dismiss();
+                                        startActivity(new Intent(PhoneLoginActivity.this,MainActivity.class));
+
+                                    }else {
+                                        String message = task.getException().toString();
+                                        Toast.makeText(PhoneLoginActivity.this, "Error: "+message , Toast.LENGTH_SHORT).show();
+                                        loadingBar.dismiss();
+                                    }
+
+                                }
+                            });
 
                         } else {
 
@@ -211,4 +246,5 @@ public class PhoneLoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

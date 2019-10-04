@@ -1,21 +1,16 @@
 package com.vampyr.demo;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 
@@ -41,11 +36,6 @@ import com.vampyr.demo.Fragments.DiscoverFragment;
 import com.vampyr.demo.Fragments.PostFragment;
 import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headView = navigationView.getHeaderView(0);
@@ -173,6 +164,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (firebaseUser == null){
+            SendUserToLoginActivity();
+        }else{
+            verifyUserExistance();
+        }
+    }
+
+    private void verifyUserExistance() {
+        String currentUid = mAuth.getCurrentUser().getUid();
+        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("Users");
+    firebaseDatabase.child(currentUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.child("username").exists()){
+                    return;
+                }else {
+                    Intent settingIntent = new Intent(MainActivity.this,ProfileActivity.class);
+                    settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(settingIntent);
+                    finish();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

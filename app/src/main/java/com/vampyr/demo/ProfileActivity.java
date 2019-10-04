@@ -133,6 +133,8 @@ public class ProfileActivity extends AppCompatActivity {
                 usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
                         if (dataSnapshot.getChildrenCount() > 0){
                             username.setError("Username is taken");
                             username.requestFocus();
