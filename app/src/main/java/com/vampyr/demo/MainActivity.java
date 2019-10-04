@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStart() {
         super.onStart();
 
-        if (firebaseUser == null){
+        if (firebaseUser == null && firebaseUser.isEmailVerified()){
             SendUserToLoginActivity();
         }else {
             verifyUserExistance();

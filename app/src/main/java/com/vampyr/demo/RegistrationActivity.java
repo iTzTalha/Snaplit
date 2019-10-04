@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -99,7 +100,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                             return;
                         }else if (TextUtils.isEmpty(E_mail) ){
                             loadingBar.dismiss();
-                            email.setError("Please enter the email");
+                            email.setError("Please enter the email address");
+                            email.requestFocus();
+                            return;
+                        }else if (!Patterns.EMAIL_ADDRESS.matcher(E_mail).matches()) {
+                            loadingBar.dismiss();
+                            email.setError("Please enter the valid email address");
                             email.requestFocus();
                             return;
                         }else if (TextUtils.isEmpty(userPassword)) {

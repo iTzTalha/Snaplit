@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,7 +29,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class LoginActivity extends AppCompatActivity implements View.OnKeyListener{
+import java.util.regex.Pattern;
+
+public class LoginActivity extends AppCompatActivity{
 
     View view = this.getCurrentFocus();
 
@@ -42,15 +45,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     private ImageView phoneImage;
 
 
-    @Override
-    public boolean onKey(View view, int i, KeyEvent keyEvent) {
-
-        if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN){
-            AllowUserToLogin();
-        }
-
-        return false;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +85,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         String E_mail = Email.getText().toString();
         if(TextUtils.isEmpty(E_mail)){
             loadingBar.dismiss();
-            Email.setError("Please enter the email");
+            Email.setError("Please enter the email address");
             Email.requestFocus();
             return;
-        } else if (TextUtils.isEmpty(userPassword)) {
+        }else if (!Patterns.EMAIL_ADDRESS.matcher(E_mail).matches()) {
+            Email.setError("Please enter valid email address");
+            Email.requestFocus();
+            return;
+        }else if (TextUtils.isEmpty(userPassword)) {
             loadingBar.dismiss();
             password.setError("Please enter the password");
             password.requestFocus();
@@ -146,7 +144,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         forgetPassword = (TextView) findViewById(R.id.forgetPasswordText);
         creatNewAccount = (TextView) findViewById(R.id.signupText);
         loadingBar = new ProgressDialog(this);
-        password.setOnKeyListener(this);
         constraintLayout = (ConstraintLayout) findViewById(R.id.bgrelativeLayout);
         phoneImage = (ImageView) findViewById(R.id.phoneImage);
     }
