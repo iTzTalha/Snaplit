@@ -4,7 +4,6 @@
     android:id="@+id/profileActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Fragments.ProfileFragment"
     android:screenOrientation="portrait">
@@ -32,18 +31,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_arrow_left_white" />
-
-                <TextView
-                    android:id="@+id/save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:text="Save"
-                    android:textSize="16sp"
-                    android:textColor="#FFFFFF"/>
 
             </RelativeLayout>
 
@@ -74,27 +61,72 @@
             android:textSize="16sp"
             android:textColor="@color/colorPrimary"/>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/username"
-            android:hint="Username"
-            android:layout_marginTop="25dp"
-            app:met_floatingLabel="normal"
-            android:singleLine="true"
-            android:inputType="text"
-            android:maxLength="25"/>
+            android:orientation="vertical">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/bio"
-            android:hint="Bio"
-            android:inputType="textMultiLine"
-            app:met_floatingLabel="normal"
-            android:maxLength="135"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="38dp"
+                    android:src="@drawable/ic_person_black_24dp" />
+
+                <TextView
+                    android:id="@+id/editUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:text="Edit username"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_description_black" />
+
+                <TextView
+                    android:id="@+id/editBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:text="Edit Bio"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
 </LinearLayout>
-

@@ -47,11 +47,8 @@ import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    LinearLayout linearLayout;
-
-    TextView save, tv_change;
+    TextView tv_change,editBio,editUsrname;
     ImageView close, imageView;
-    MaterialEditText username, bio;
 
     FirebaseUser firebaseUser;
 
@@ -65,14 +62,11 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        linearLayout = findViewById(R.id.profileActivityLayout);
-
-        save = findViewById(R.id.save);
         tv_change = findViewById(R.id.tv_change);
         close = findViewById(R.id.close);
         imageView = findViewById(R.id.image_profile);
-        username = findViewById(R.id.username);
-        bio = findViewById(R.id.bio);
+        editBio = findViewById(R.id.editBio);
+        editUsrname = findViewById(R.id.editUsername);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -83,8 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 Users users = dataSnapshot.getValue(Users.class);
-                username.setText(users.getUsername());
-                bio.setText(users.getBio());
+                editUsrname.setText(users.getUsername());
+                editBio.setText(users.getBio());
                 Glide.with(getApplicationContext()).load(users.getImageurl()).into(imageView);
 
             }
@@ -92,6 +86,20 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        editUsrname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this,EditUsernameActivity.class));
+            }
+        });
+
+        editBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this,BioActivity.class));
             }
         });
 
@@ -123,57 +131,6 @@ public class ProfileActivity extends AppCompatActivity {
                         .start(ProfileActivity.this);
             }
         });
-
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String UserName = username.getText().toString();
-
-                Query usernameQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").equalTo(UserName);
-                usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                        if (dataSnapshot.getChildrenCount() > 0){
-                            username.setError("Username is taken");
-                            username.requestFocus();
-                            return;
-                        }else {
-                            updateProfile(username.getText().toString()
-                                    , bio.getText().toString());
-                            startActivity(new Intent(ProfileActivity.this, MainActivity.class));
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
-
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-            }
-        });
-    }
-
-    private void updateProfile(String username, String bio) {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("username", username);
-        hashMap.put("bio",bio);
-
-        reference.updateChildren(hashMap);
     }
 
     private String getFileExtention(Uri uri){

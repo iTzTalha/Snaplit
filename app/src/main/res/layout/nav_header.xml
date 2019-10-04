@@ -12,14 +12,13 @@
         android:id="@+id/nav_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/profile" />
 
     <TextView
         android:id="@+id/nav_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="VampYr"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
