@@ -29,8 +29,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -44,7 +47,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
     private MaterialEditText phoneNumberText, verifyText;
     private Button btn_submit, btn_login;
     private ImageView btn_backToLogin;
-    private TextView logintocontinue,resendCode;
+    private TextView logintocontinue, resendCode;
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
@@ -90,9 +93,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                     phoneNumberText.setError("Enter valid Phone number");
                     phoneNumberText.requestFocus();
                     return;
-                }
-
-                else {
+                } else {
 
                     loadingBar.setTitle("Phone verification");
                     loadingBar.setMessage("Sending verification code...");
@@ -152,7 +153,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
 
-            signInWithPhoneAuthCredential(phoneAuthCredential);
+              //  signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
             @Override
@@ -171,7 +172,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                     verifyText.setVisibility(View.INVISIBLE);
                     btn_login.setVisibility(View.INVISIBLE);
 
-                }else if (e instanceof FirebaseTooManyRequestsException) {
+                } else if (e instanceof FirebaseTooManyRequestsException) {
                     // The SMS quota for the project has been exceeded
                     loadingBar.dismiss();
                     phoneNumberText.setError("You're sending too many verification code, Please try again later");
@@ -218,27 +219,53 @@ public class PhoneLoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            final FirebaseUser currentUser = mAuth.getCurrentUser();
+                            loadingBar.dismiss();
                             currentUserId = mAuth.getUid();
-                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
-
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("phone", phoneNumber);
-                            hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/fir-5efa8.appspot.com/o/profile-placeholder.png?alt=media&token=0f72e718-b845-4e7b-865c-76d08340f9a8");
-
-                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+                            reference.orderByChild("phone").equalTo(phoneNumber).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.getValue() != null) {
+                                        //it means user already registered
+                                        startActivity(new Intent(PhoneLoginActivity.this, MainActivity.class));
+                                        finish();
 
-                                    if (task.isSuccessful()) {
-                                        loadingBar.dismiss();
-                                        startActivity(new Intent(PhoneLoginActivity.this,MainActivity.class));
+                                    } else {
+                                        //It is new users
+                                        //write an entry to your user table
+                                        //writeUserEntryToDB();
 
-                                    }else {
-                                        String message = task.getException().toString();
-                                        Toast.makeText(PhoneLoginActivity.this, "Error: "+message , Toast.LENGTH_SHORT).show();
-                                        loadingBar.dismiss();
+                                        currentUserId = mAuth.getUid();
+                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
+
+                                        HashMap<String, Object> hashMap = new HashMap<>();
+                                        hashMap.put("id", currentUserId);
+                                        hashMap.put("phone", phoneNumber);
+                                        hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/fir-5efa8.appspot.com/o/profile-placeholder.png?alt=media&token=0f72e718-b845-4e7b-865c-76d08340f9a8");
+
+                                        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                if (task.isSuccessful()) {
+                                                    loadingBar.dismiss();
+                                                    Intent profileIntent = new Intent(PhoneLoginActivity.this,MainActivity.class);
+                                                    startActivity(profileIntent);
+                                                    finish();
+
+                                                } else {
+                                                    String message = task.getException().toString();
+                                                    Toast.makeText(PhoneLoginActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                                                    loadingBar.dismiss();
+                                                }
+
+                                            }
+                                        });
                                     }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                 }
                             });
@@ -246,7 +273,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                         } else {
 
                             String msg = task.getException().toString();
-                            Toast.makeText(PhoneLoginActivity.this, "Error: "+msg, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PhoneLoginActivity.this, "Error: " + msg, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

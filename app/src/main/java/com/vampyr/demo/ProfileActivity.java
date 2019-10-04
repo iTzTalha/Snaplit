@@ -40,6 +40,7 @@ import com.hbb20.CountryCodePicker;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
 
 import java.util.HashMap;
@@ -142,6 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
                         }else {
                             updateProfile(username.getText().toString()
                                     , bio.getText().toString());
+                            startActivity(new Intent(ProfileActivity.this, MainActivity.class));
                             finish();
                         }
                     }

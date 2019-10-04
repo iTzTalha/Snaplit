@@ -160,6 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
 
     private void SendUserToRegisterActivity() {
         Intent registerActivity = new Intent(LoginActivity.this, RegistrationActivity.class);
+        registerActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(registerActivity);
     }
 
