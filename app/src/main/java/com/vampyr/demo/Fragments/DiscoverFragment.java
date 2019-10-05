@@ -81,6 +81,7 @@ public class DiscoverFragment extends Fragment {
 
 
         readUser();
+
         search_bar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

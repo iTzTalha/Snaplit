@@ -1,4 +1,4 @@
-package com.vampyr.demo;
+package com.vampyr.demo.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -36,6 +36,9 @@ import com.vampyr.demo.Fragments.DiscoverFragment;
 import com.vampyr.demo.Fragments.PostFragment;
 import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
+import com.vampyr.demo.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -50,9 +53,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseUser firebaseUser;
     private ProgressDialog loadingBar;
 
-    ImageView nav_image;
+    CircleImageView nav_image;
     TextView nav_username;
 
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,29 +79,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View headView = navigationView.getHeaderView(0);
         nav_image = headView.findViewById(R.id.nav_image);
         nav_username = headView.findViewById(R.id.nav_username);
-        nav_image.setOnClickListener(new View.OnClickListener() {
+   /*     nav_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CloseDrawer();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+                editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+                editor.apply();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new ProfileFragment()).commit();
             }
         });
         nav_username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CloseDrawer();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+                editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+                editor.apply();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new ProfileFragment()).commit();
             }
         });
-
+*/
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Users user = dataSnapshot.getValue(Users.class);
-                if(user.getImageurl() != null) {
-                    Glide.with(getApplicationContext()).load(user.getImageurl()).into(nav_image);
-                }
+                Glide.with(getApplicationContext()).load(user.getImageurl()).into(nav_image);
                 nav_username.setText(user.getUsername());
             }
 
@@ -124,33 +130,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 switch (menuItem.getItemId()) {
                     case R.id.nav_Home:
-                        CloseDrawer();
                         selectedFragment = new HomeFragment();
                         setTitle("Home");
                         break;
 
                     case R.id.nav_Discover:
-                        CloseDrawer();
                         selectedFragment = new DiscoverFragment();
                         setTitle("Discover");
                         break;
 
                     case R.id.nav_addPosts:
-                        CloseDrawer();
-                         selectedFragment = new PostFragment();
+                        selectedFragment = new PostFragment();
                         break;
 
                     case R.id.nav_chat:
-                        CloseDrawer();
                         selectedFragment = new ChatFragment();
                         setTitle("Chats");
                         break;
 
                     case R.id.nav_profile:
-                        SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+                        editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                         editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         editor.apply();
-                        CloseDrawer();
+
                         selectedFragment = new ProfileFragment();
                         setTitle("Me");
                         break;

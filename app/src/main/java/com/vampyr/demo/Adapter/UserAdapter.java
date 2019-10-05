@@ -1,6 +1,7 @@
 package com.vampyr.demo.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vampyr.demo.Activities.UsersActivity;
 import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
@@ -32,7 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context mContext;
     private List<Users> mUsers;
 
-    private FirebaseUser firebaseUser;
+    FirebaseUser firebaseUser;
 
     public UserAdapter(Context mContext, List<Users> mUsers) {
         this.mContext = mContext;
@@ -73,24 +75,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 editor.putString("profileid", users.getId());
                 editor.apply();
 
-                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
-            }
-        });
+               // ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+                startActivity(mContext);
 
-        holder.followText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.followText.getText().toString().equals("follow")) {
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(users.getId()).setValue(true);
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(users.getId())
-                            .child("followers").child(firebaseUser.getUid()).setValue(true);
-                } else {
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(users.getId()).removeValue();
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(users.getId())
-                            .child("followers").child(firebaseUser.getUid()).removeValue();
-                }
+
             }
         });
 
@@ -139,5 +127,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             }
         });
+    }
+
+    public static void startActivity(Context context) {
+        context.startActivity(new Intent(context, UsersActivity.class));
     }
 }

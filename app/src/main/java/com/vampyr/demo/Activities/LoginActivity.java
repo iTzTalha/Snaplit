@@ -1,4 +1,4 @@
-package com.vampyr.demo;
+package com.vampyr.demo.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vampyr.demo.R;
 
 import java.util.regex.Pattern;
 
@@ -98,8 +99,7 @@ public class LoginActivity extends AppCompatActivity{
             password.requestFocus();
             return;
         }else{
-            loadingBar.setTitle("Sign in");
-            loadingBar.setMessage("Please wait...");
+            loadingBar.setMessage("Connecting...");
             loadingBar.setCanceledOnTouchOutside(true);
             loadingBar.show();
             mAuth.signInWithEmailAndPassword(E_mail,userPassword)

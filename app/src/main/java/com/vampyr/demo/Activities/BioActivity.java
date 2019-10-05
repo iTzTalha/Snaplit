@@ -1,9 +1,8 @@
-package com.vampyr.demo;
+package com.vampyr.demo.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +17,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vampyr.demo.Model.Users;
+import com.vampyr.demo.R;
 
 import java.util.HashMap;
 

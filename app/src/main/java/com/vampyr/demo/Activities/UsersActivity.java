@@ -1,19 +1,17 @@
-package com.vampyr.demo.Fragments;
-
+package com.vampyr.demo.Activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,80 +22,93 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.Model.Users;
-import com.vampyr.demo.Activities.ProfileActivity;
 import com.vampyr.demo.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ProfileFragment extends Fragment {
+public class UsersActivity extends AppCompatActivity {
 
 
-    ImageView btn_share;
+    ImageView goBack, btn_share;
     CircleImageView image_profile;
     TextView follwers, following, posts, bio, username;
-    Button btn_profile;
+    Button btn_profile, chatUser;
 
     FirebaseUser firebaseUser;
     String profileid;
 
-    private FirebaseAuth mAuth;
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_users);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        image_profile = findViewById(R.id.image_profile);
+        goBack = findViewById(R.id.goBack);
+        follwers = findViewById(R.id.followers);
+        following = findViewById(R.id.following);
+        btn_profile = findViewById(R.id.edit_profile);
+        posts = findViewById(R.id.posts);
+        bio = findViewById(R.id.bio);
+        username = findViewById(R.id.user_name);
+        btn_share = findViewById(R.id.share);
+        chatUser = findViewById(R.id.chatuser);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         profileid = sharedPreferences.getString("profileid", "none");
 
-        image_profile = view.findViewById(R.id.image_profile);
-        btn_share = view.findViewById(R.id.share);
-        follwers = view.findViewById(R.id.followers);
-        following = view.findViewById(R.id.following);
-        btn_profile = view.findViewById(R.id.edit_profile);
-        posts = view.findViewById(R.id.posts);
-        bio = view.findViewById(R.id.bio);
-        username = view.findViewById(R.id.user_name);
-
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         userinfo();
-
         getFollowers();
         //getNrPosts();
 
         if (profileid.equals(firebaseUser.getUid())){
 
-            btn_profile.setText("Edit Profile");
+            btn_profile.setVisibility(View.INVISIBLE);
+            chatUser.setText("Edit profile");
+            chatUser.setTextColor(getResources().getColor(R.color.colorPrimary));
+            chatUser.setBackgroundResource(R.drawable.rounded_button_profile);
+            chatUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(UsersActivity.this,ProfileActivity.class));
+                    finish();
+                }
+            });
+
+        }else {
+
+            checkFollow();
         }
 
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String btn = btn_profile.getText().toString();
 
-                Intent editprofileIntent = new Intent(getActivity(), ProfileActivity.class);
-                startActivity(editprofileIntent);
+                if (btn.equals("follow")) {
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                            .child("following").child(profileid).setValue(true);
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
+                            .child("followers").child(firebaseUser.getUid()).setValue(true);
+
+                } else if (btn.equals("following")) {
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                            .child("following").child(profileid).removeValue();
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
+                            .child("followers").child(firebaseUser.getUid()).removeValue();
+
+                }
             }
         });
 
-        return view;
 
     }
 
@@ -107,12 +118,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (getContext() == null) {
+                if (getApplicationContext() == null) {
                     return;
                 }
 
                 Users user = dataSnapshot.getValue(Users.class);
-                Glide.with(getContext()).load(user.getImageurl()).into(image_profile);
+                Glide.with(getApplicationContext()).load(user.getImageurl()).into(image_profile);
                 username.setText(user.getUsername());
                 bio.setText(user.getBio());
             }
@@ -122,6 +133,29 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
+
+    private void checkFollow() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Follow").child(firebaseUser.getUid()).child("following");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.child(profileid).exists()){
+                    btn_profile.setText("following");
+                }else {
+                    btn_profile.setText("follow");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void getFollowers(){
@@ -157,7 +191,8 @@ public class ProfileFragment extends Fragment {
         });
 
     }
-/*
+
+    /*
     private void getNrPosts(){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");

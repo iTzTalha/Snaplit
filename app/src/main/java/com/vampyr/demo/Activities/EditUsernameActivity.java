@@ -1,4 +1,4 @@
-package com.vampyr.demo;
+package com.vampyr.demo.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vampyr.demo.Model.Users;
+import com.vampyr.demo.R;
 
 import java.util.HashMap;
 import java.util.regex.Pattern;

@@ -1,21 +1,17 @@
-package com.vampyr.demo;
+package com.vampyr.demo.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +22,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,38 +31,38 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.hbb20.CountryCodePicker;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
+import com.vampyr.demo.R;
 
 import java.util.HashMap;
 
-public class ProfileActivity extends AppCompatActivity {
+public class VerificationActivity extends AppCompatActivity {
 
-    TextView tv_change,editBio,editUsrname;
-    ImageView close, imageView;
+    TextView tv_change, okContinue;
+    ImageView imageView;
+    MaterialEditText username;
 
+    FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
 
     private Uri mImageUri;
     private StorageTask uploadTask;
     StorageReference storageReference;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_verification);
 
         tv_change = findViewById(R.id.tv_change);
-        close = findViewById(R.id.close);
+        okContinue = findViewById(R.id.okContinue);
         imageView = findViewById(R.id.image_profile);
-        editBio = findViewById(R.id.editBio);
-        editUsrname = findViewById(R.id.editUsername);
+        username = findViewById(R.id.username);
 
+        mAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -77,8 +72,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 Users users = dataSnapshot.getValue(Users.class);
-                editUsrname.setText(users.getUsername());
-                editBio.setText(users.getBio());
                 Glide.with(getApplicationContext()).load(users.getImageurl()).into(imageView);
 
             }
@@ -89,27 +82,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        editUsrname.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,EditUsernameActivity.class));
-            }
-        });
-
-        editBio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,BioActivity.class));
-            }
-        });
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         tv_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
                 CropImage.activity()
                         .setAspectRatio(1, 1)
                         .setCropShape(CropImageView.CropShape.OVAL)
-                        .start(ProfileActivity.this);
+                        .start(VerificationActivity.this);
             }
         });
 
@@ -128,9 +100,79 @@ public class ProfileActivity extends AppCompatActivity {
                 CropImage.activity()
                         .setAspectRatio(1, 1)
                         .setCropShape(CropImageView.CropShape.OVAL)
-                        .start(ProfileActivity.this);
+                        .start(VerificationActivity.this);
             }
         });
+
+        okContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String UserName = username.getText().toString();
+
+                Query usernameQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").equalTo(UserName);
+                usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if (dataSnapshot.exists()){
+                            username.setError("Username is taken");
+                            username.requestFocus();
+                            return;
+                        }else {
+                            updateProfile(username.getText().toString());
+
+                            Intent mainIntent = new Intent(VerificationActivity.this,MainActivity.class);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(mainIntent);
+
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        String currentUid = mAuth.getCurrentUser().getUid();
+        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("Users");
+        firebaseDatabase.child(currentUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.child("username").exists()){
+                    Intent mainIntent = new Intent(VerificationActivity.this,MainActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(mainIntent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void updateProfile(String username) {
+
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("username", username);
+
+        reference.updateChildren(hashMap);
     }
 
     private String getFileExtention(Uri uri){
@@ -178,14 +220,14 @@ public class ProfileActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }else {
 
-                        Toast.makeText(ProfileActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VerificationActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
-                    Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VerificationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }else {
@@ -206,7 +248,7 @@ public class ProfileActivity extends AppCompatActivity {
             uploadImage();
         }else {
 
-          //  Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 }

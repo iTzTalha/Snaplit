@@ -13,14 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VerificationActivity"></activity>
-        <activity android:name=".EditUsernameActivity" />
-        <activity android:name=".BioActivity" />
+        <activity android:name=".Activities.UsersActivity"></activity>
+        <activity android:name=".Activities.VerificationActivity" />
+        <activity android:name=".Activities.EditUsernameActivity" />
+        <activity android:name=".Activities.BioActivity" />
         <activity
-            android:name=".PhoneLoginActivity"
+            android:name=".Activities.PhoneLoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".StartActivity"
+            android:name=".Activities.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.windowFullscreen">
             <intent-filter>
@@ -30,22 +31,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".Activities.RegistrationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.windowFullscreen" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.windowFullscreen" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".Activities.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PostsActivity"
+            android:name=".Activities.PostsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

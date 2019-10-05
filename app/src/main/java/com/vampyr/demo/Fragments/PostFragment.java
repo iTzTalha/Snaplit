@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.vampyr.demo.PostsActivity;
+import com.vampyr.demo.Activities.PostsActivity;
 import com.vampyr.demo.R;
 
 /**

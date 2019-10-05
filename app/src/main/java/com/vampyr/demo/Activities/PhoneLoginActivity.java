@@ -1,4 +1,4 @@
-package com.vampyr.demo;
+package com.vampyr.demo.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vampyr.demo.R;
 
 import org.w3c.dom.Text;
 

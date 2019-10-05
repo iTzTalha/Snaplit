@@ -17,7 +17,8 @@
         android:layout_marginTop="200dp"
         android:layout_marginEnd="80dp"
         android:background="@drawable/rounded_edit_text"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:digits="abcdefghijklmnopqrstuvwxyz_.ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        android:drawableStart="@drawable/ic_person_black_24dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName"
@@ -25,8 +26,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:digits="abcdefghijklmnopqrstuvwxyz_.ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/registerEmailText"
@@ -37,7 +37,6 @@
         android:layout_marginEnd="80dp"
         android:background="@drawable/rounded_edit_text"
         android:drawableStart="@drawable/ic_email_black_24dp"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
@@ -55,8 +54,9 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="80dp"
         android:background="@drawable/rounded_edit_text"
-        android:drawableLeft="@drawable/ic_lock_black_24dp"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
         android:ems="10"
+        android:gravity="center_vertical"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"

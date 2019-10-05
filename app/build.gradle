@@ -59,6 +59,12 @@ dependencies {
     implementation 'com.hbb20:ccp:2.3.2'
     implementation 'com.github.joielechong:countrycodepicker:2.4.1'
 
+    //Navigation UI
+    def nav_version = "2.1.0"
+
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
 // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'
 

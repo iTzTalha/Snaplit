@@ -37,6 +37,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/goBack"
+                    android:layout_width="16dp"
+                    android:layout_height="17dp"
+                    android:layout_marginEnd="332dp"
+                    android:src="@drawable/ic_arrow_left_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/share"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -75,17 +87,32 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <Button
-                        android:id="@+id/edit_profile"
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:textAllCaps="false"
-                        android:layout_marginTop="40dp"
-                        android:background="@drawable/rounded_button_profile"
-                        android:textColor="@color/colorPrimary"/>
+                        <Button
+                            android:id="@+id/edit_profile"
+                            android:layout_width="130dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_toLeftOf="@+id/chatuser"
+                            android:layout_centerVertical="true"
+                            android:textAllCaps="false"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/rounded_userbutton_profile"
+                            android:textColor="#FFFFFF"/>
+
+                        <Button
+                            android:id="@+id/chatuser"
+                            android:layout_width="100dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:textAllCaps="false"
+                            android:text="Chat"
+                            android:layout_marginTop="40dp"
+                            android:background="@drawable/rounded_userbutton_profile"
+                            android:textColor="#FFFFFF"/>
+
                     </RelativeLayout>
                 </LinearLayout>
 

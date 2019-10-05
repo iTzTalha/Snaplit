@@ -1,4 +1,4 @@
-package com.vampyr.demo;
+package com.vampyr.demo.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.vampyr.demo.Fragments.PostFragment;
+import com.vampyr.demo.R;
 
 import java.util.HashMap;
 
