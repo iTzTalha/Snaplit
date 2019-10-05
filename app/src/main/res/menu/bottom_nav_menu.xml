@@ -13,7 +13,8 @@
 
     <item
         android:id="@+id/nav_addPosts"
-        android:icon="@drawable/ic_addposts"/>
+        android:icon="@drawable/ic_addposts"
+        android:title=""/>
 
     <item
         android:id="@+id/nav_chat"

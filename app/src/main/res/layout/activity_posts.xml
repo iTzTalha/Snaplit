@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/postsActivityLayout"
-    tools:context="com.vampyr.demo.PostsActivity"
+    tools:context="com.vampyr.demo.Activities.PostsActivity"
     android:screenOrientation="portrait">
 
     <com.google.android.material.appbar.AppBarLayout
