@@ -33,8 +33,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
-public class RegistrationActivity extends AppCompatActivity implements View.OnKeyListener {
+public class RegistrationActivity extends AppCompatActivity{
 
     View view = this.getCurrentFocus();
 
@@ -79,9 +80,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                 loadingBar.setCanceledOnTouchOutside(true);
                 loadingBar.show();
 
-                final String UserName = username.getText().toString();
+                final String UserName = username.getText().toString().trim();
                 final String userPassword = password.getText().toString();
-                final String E_mail = email.getText().toString();
+                final String E_mail = email.getText().toString().trim();
                 Query usernameQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").equalTo(UserName);
                 usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -98,6 +99,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                             username.setError("Please enter the username");
                             username.requestFocus();
                             return;
+                        }else if (username.length() < 3){
+                            username.setError("Username must be between 3 - 25 characters");
+                            username.requestFocus();
+                            return;
                         }else if (TextUtils.isEmpty(E_mail) ){
                             loadingBar.dismiss();
                             email.setError("Please enter the email address");
@@ -105,7 +110,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
                             return;
                         }else if (!Patterns.EMAIL_ADDRESS.matcher(E_mail).matches()) {
                             loadingBar.dismiss();
-                            email.setError("Please enter the valid email address");
+                            email.setError("Please enter a valid email address");
                             email.requestFocus();
                             return;
                         }else if (TextUtils.isEmpty(userPassword)) {
@@ -148,7 +153,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
 
                                     HashMap<String, Object> hashMap = new HashMap<>();
                                     hashMap.put("id", currentUserId);
-                                    hashMap.put("username", username.toLowerCase());
+                                    hashMap.put("username", username.toLowerCase().replace(" ","").trim());
                                     hashMap.put("bio", "");
                                     hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/fir-5efa8.appspot.com/o/profile-placeholder.png?alt=media&token=0f72e718-b845-4e7b-865c-76d08340f9a8");
                                     hashMap.put("email",Email);
@@ -189,22 +194,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnKe
         username = (EditText) findViewById(R.id.usernameRegText);
         alreadyhaveAccount = (TextView) findViewById(R.id.loginText);
         loadingBar = new ProgressDialog(this);
-        password.setOnKeyListener(this);
         constraintLayout = (ConstraintLayout) findViewById(R.id.bg_regLayout);
     }
 
     private void SendUserToLoginActivity() {
         Intent loginIntent = new Intent(RegistrationActivity.this, LoginActivity.class);
         startActivity(loginIntent);
-    }
-
-    @Override
-    public boolean onKey(View view, int i, KeyEvent keyEvent) {
-        if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-
-        }
-
-        return false;
     }
 
     public void hideKeyboard(){

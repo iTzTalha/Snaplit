@@ -21,8 +21,10 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vampyr.demo.Model.Users;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class EditUsernameActivity extends AppCompatActivity {
+
 
     MaterialEditText username;
     ImageView close, saveUsername;
@@ -67,7 +69,7 @@ public class EditUsernameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String UserName = username.getText().toString();
+                final String UserName = username.getText().toString();
 
                 Query usernameQuery = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").equalTo(UserName);
                 usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -78,7 +80,11 @@ public class EditUsernameActivity extends AppCompatActivity {
                             username.setError("Username is taken");
                             username.requestFocus();
                             return;
-                        }else {
+                        }else if (username.length() < 3){
+                            username.setError("Username must be between 3 - 25 characters");
+                            username.requestFocus();
+                            return;
+                        } else {
                             updateProfile(username.getText().toString());
                             finish();
                         }
@@ -99,7 +105,7 @@ public class EditUsernameActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("username", username);
+        hashMap.put("username", username.toLowerCase().replace(" ","").trim());
 
         reference.updateChildren(hashMap);
     }

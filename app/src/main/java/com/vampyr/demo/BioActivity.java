@@ -70,7 +70,7 @@ public class BioActivity extends AppCompatActivity {
                 String str_Bio = Bio.getText().toString();
 
                 HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("bio",str_Bio);
+                hashMap.put("bio",str_Bio.trim());
 
                 reference.updateChildren(hashMap);
 

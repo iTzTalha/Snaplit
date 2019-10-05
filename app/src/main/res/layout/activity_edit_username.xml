@@ -64,7 +64,8 @@
             android:singleLine="true"
             android:inputType="text"
             android:maxLines="1"
-            android:maxLength="25"/>
+            android:maxLength="25"
+            android:digits="abcdefghijklmnopqrstuvwxyz_.ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
 
     </LinearLayout>
 
