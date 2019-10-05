@@ -105,6 +105,7 @@ public class UsersActivity extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
                             .child("followers").child(firebaseUser.getUid()).removeValue();
 
+
                 }
             }
         });
@@ -145,8 +146,13 @@ public class UsersActivity extends AppCompatActivity {
 
                 if (dataSnapshot.child(profileid).exists()){
                     btn_profile.setText("following");
+                    btn_profile.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    btn_profile.setBackgroundResource(R.drawable.rounded_button_profile);
+
                 }else {
                     btn_profile.setText("follow");
+                    btn_profile.setTextColor(getResources().getColor(R.color.WHITE));
+                    btn_profile.setBackgroundResource(R.drawable.rounded_userbutton_profile);
                 }
             }
 
