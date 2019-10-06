@@ -170,7 +170,6 @@ public class PostsActivity extends AppCompatActivity {
             Image_Added.setImageURI(imageUri);
         }else {
            // Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(PostsActivity.this, PostFragment.class));
             finish();
         }
     }

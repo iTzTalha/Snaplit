@@ -45,21 +45,21 @@
         android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher"
-            android:id="@+id/image_profile"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
+            android:id="@+id/tv_change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Photo"
             android:layout_gravity="center"
-            android:id="@+id/tv_change"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimary"/>
+            android:text="Change Photo"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -112,10 +112,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
+                    android:hint="Edit Bio"
                     android:maxLines="1"
                     android:padding="16dp"
                     android:text="Edit Bio"
-                    android:hint="Edit Bio"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

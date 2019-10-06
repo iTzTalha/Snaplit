@@ -12,8 +12,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,9 +27,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.Activities.ProfileActivity;
+import com.vampyr.demo.Adapter.MyPhotoAdapter;
+import com.vampyr.demo.Model.Post;
+import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,6 +54,10 @@ public class ProfileFragment extends Fragment {
 
     FirebaseUser firebaseUser;
     String profileid;
+
+    RecyclerView recyclerView;
+    MyPhotoAdapter myPhotoAdapter;
+    List<Post> postList;
 
     private FirebaseAuth mAuth;
 
@@ -77,11 +92,22 @@ public class ProfileFragment extends Fragment {
         bio = view.findViewById(R.id.bio);
         username = view.findViewById(R.id.user_name);
 
+        /************
+         * recyclerView for Posts
+         */
+        recyclerView = view.findViewById(R.id.recyler_view_myPosts);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 3);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        postList = new ArrayList<>();
+        myPhotoAdapter = new MyPhotoAdapter(getContext(), postList);
+        recyclerView.setAdapter(myPhotoAdapter);
+
 
         userinfo();
-
         getFollowers();
-        //getNrPosts();
+        getNrPosts();
+        myPhotos();
 
         if (profileid.equals(firebaseUser.getUid())){
 
@@ -157,7 +183,7 @@ public class ProfileFragment extends Fragment {
         });
 
     }
-/*
+
     private void getNrPosts(){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
@@ -168,7 +194,7 @@ public class ProfileFragment extends Fragment {
                 int i=0;
                 for (DataSnapshot Snapshot : dataSnapshot.getChildren()){
 
-                    Post posts = snapshot.getValue(Post.class);
+                    Post posts = Snapshot.getValue(Post.class);
                     if (posts.getPublisher().equals(profileid)){
                         i++;
                     }
@@ -182,6 +208,33 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-    }*/
+    }
+
+    private void myPhotos(){
+
+        DatabaseReference reference =FirebaseDatabase.getInstance().getReference("Posts");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                postList.clear();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Post post = snapshot.getValue(Post.class);
+                    if (post.getPublisher().equals(profileid)){
+                        postList.add(post);
+                    }
+                }
+
+                Collections.reverse(postList);
+                myPhotoAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }

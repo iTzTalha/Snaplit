@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,8 +23,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vampyr.demo.Adapter.MyPhotoAdapter;
+import com.vampyr.demo.Model.Post;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,6 +44,10 @@ public class UsersActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     String profileid;
+
+    RecyclerView recyclerView;
+    MyPhotoAdapter myPhotoAdapter;
+    List<Post> postList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +70,17 @@ public class UsersActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         profileid = sharedPreferences.getString("profileid", "none");
 
+        /************
+         * recyclerView for Posts
+         */
+        recyclerView = findViewById(R.id.recyler_view_myPosts);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        postList = new ArrayList<>();
+        myPhotoAdapter = new MyPhotoAdapter(getApplicationContext(), postList);
+        recyclerView.setAdapter(myPhotoAdapter);
+
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +90,8 @@ public class UsersActivity extends AppCompatActivity {
 
         userinfo();
         getFollowers();
-        //getNrPosts();
+        getNrPosts();
+        myPhotos();
 
         if (profileid.equals(firebaseUser.getUid())){
 
@@ -198,7 +222,6 @@ public class UsersActivity extends AppCompatActivity {
 
     }
 
-    /*
     private void getNrPosts(){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
@@ -209,7 +232,7 @@ public class UsersActivity extends AppCompatActivity {
                 int i=0;
                 for (DataSnapshot Snapshot : dataSnapshot.getChildren()){
 
-                    Post posts = snapshot.getValue(Post.class);
+                    Post posts = Snapshot.getValue(Post.class);
                     if (posts.getPublisher().equals(profileid)){
                         i++;
                     }
@@ -223,6 +246,32 @@ public class UsersActivity extends AppCompatActivity {
 
             }
         });
-    }*/
+    }
 
+    private void myPhotos(){
+
+        DatabaseReference reference =FirebaseDatabase.getInstance().getReference("Posts");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                postList.clear();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Post post = snapshot.getValue(Post.class);
+                    if (post.getPublisher().equals(profileid)){
+                        postList.add(post);
+                    }
+                }
+
+                Collections.reverse(postList);
+                myPhotoAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
