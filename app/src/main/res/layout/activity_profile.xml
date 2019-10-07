@@ -50,7 +50,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/profile" />
 
         <TextView
             android:id="@+id/tv_change"

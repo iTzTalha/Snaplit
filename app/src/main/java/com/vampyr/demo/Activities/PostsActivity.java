@@ -140,7 +140,6 @@ public class PostsActivity extends AppCompatActivity {
                         reference.child(postid).setValue(hashMap);
                         progressDialog.dismiss();
 
-                        startActivity(new Intent(PostsActivity.this,MainActivity.class));
                         finish();
                     }else {
                         Toast.makeText(PostsActivity.this, "Failed!", Toast.LENGTH_SHORT).show();

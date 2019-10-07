@@ -1,17 +1,21 @@
 package com.vampyr.demo.Model;
 
+import com.google.firebase.database.ServerValue;
+
 public class Post {
 
     private String postid;
     private String postimage;
     private String description;
     private String publisher;
+    private Object timeStamp;
 
-    public Post(String postid, String postimage, String description, String publisher) {
+    public Post(String postid, String postimage, String description, String publisher, Object timeStamp) {
         this.postid = postid;
         this.postimage = postimage;
         this.description = description;
         this.publisher = publisher;
+        this.timeStamp = ServerValue.TIMESTAMP;
     }
 
     public Post() {
@@ -47,5 +51,13 @@ public class Post {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public Object getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Object timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }
