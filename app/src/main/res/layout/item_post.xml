@@ -31,8 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="16sp"/>
 
 
                 <TextView
@@ -46,10 +45,14 @@
 
         </LinearLayout>
 
+        <View style="@style/Divider" />
+
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <View style="@style/Divider"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,23 +61,23 @@
 
             <ImageView
                 android:id="@+id/like"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:src="@drawable/ic_like" />
 
             <TextView
                 android:id="@+id/likeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
                 android:layout_toEndOf="@+id/like"
                 android:hint="Like" />
 
             <ImageView
                 android:id="@+id/comment"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/likeText"
                 android:src="@drawable/ic_comment" />
@@ -84,14 +87,14 @@
                 android:id="@+id/commentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@+id/comment"/>
 
             <ImageView
                 android:id="@+id/share"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/commentText"
                 android:src="@drawable/ic_share" />

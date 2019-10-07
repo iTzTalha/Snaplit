@@ -15,8 +15,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".Activities.StartActivity"
             android:screenOrientation="portrait"
@@ -45,17 +45,23 @@
         <activity
             android:name=".Activities.PostsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activities.UsersActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Activities.VerificationActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.EditUsernameActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.BioActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activities.UsersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.VerificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.EditUsernameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.BioActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.PhoneLoginActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".Activities.CommentsActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
