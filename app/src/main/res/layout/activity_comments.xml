@@ -10,13 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar"
-        android:background="?android:attr/windowBackground"/>
+        app:theme="@style/ToolbarWhiteColoredBackArrow"
+        app:titleTextColor="#fff"
+        android:background="@color/colorPrimary">
+
+    </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recyler_view"
-            android:layout_below="@+id/toolbar"/>
+            android:layout_below="@+id/top"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +28,7 @@
         android:id="@+id/top"
         android:background="#fff"
         android:padding="8dp"
-        android:layout_alignParentTop="true">
+        android:layout_below="@+id/toolbar">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"

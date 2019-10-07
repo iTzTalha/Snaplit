@@ -45,6 +45,7 @@ public class MyPhotoAdapter extends RecyclerView.Adapter<MyPhotoAdapter.ViewHold
 
     @Override
     public int getItemCount() {
+
         return mPost.size();
     }
 

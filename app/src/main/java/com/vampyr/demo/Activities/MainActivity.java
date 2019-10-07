@@ -1,8 +1,11 @@
 package com.vampyr.demo.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -167,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        checkConnection();
+
     }
     @Override
     public void onBackPressed() {
@@ -217,4 +222,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(loginIntent);
     }
 
+
+    public void checkConnection(){
+
+        ConnectivityManager  manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activerNetwork =manager.getActiveNetworkInfo();
+
+        if (activerNetwork != null){
+
+          return;
+        }else {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

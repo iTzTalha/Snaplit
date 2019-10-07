@@ -31,4 +31,8 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="ToolbarWhiteColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/WHITE</item>
+    </style>
+
 </resources>

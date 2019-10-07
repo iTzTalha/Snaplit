@@ -241,21 +241,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyler_view_myPosts"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyler_view_myProfileComments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyler_view_myFavotite"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
