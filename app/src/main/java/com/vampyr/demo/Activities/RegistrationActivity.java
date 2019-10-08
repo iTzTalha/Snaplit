@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,8 @@ public class RegistrationActivity extends AppCompatActivity{
 
     Button signUpButton;
     EditText username, password, email;
-    TextView alreadyhaveAccount;
+    TextView alreadyhaveAccount,phoneNumberLoginText;
+    ImageView phoneImage;
 
     FirebaseAuth mAuth;
     ProgressDialog loadingBar;
@@ -132,6 +134,22 @@ public class RegistrationActivity extends AppCompatActivity{
             }
         });
 
+        phoneImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistrationActivity.this,PhoneLoginActivity.class));
+                finish();
+            }
+        });
+
+        phoneNumberLoginText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistrationActivity.this,PhoneLoginActivity.class));
+                finish();
+            }
+        });
+
     }
 
     private void createNewAccount(final String username, final String Email, String UserPassword) {
@@ -193,6 +211,8 @@ public class RegistrationActivity extends AppCompatActivity{
         alreadyhaveAccount = (TextView) findViewById(R.id.loginText);
         loadingBar = new ProgressDialog(this);
         constraintLayout = (ConstraintLayout) findViewById(R.id.bg_regLayout);
+        phoneNumberLoginText = (TextView) findViewById(R.id.phoneNumberLoginText);
+        phoneImage = (ImageView) findViewById(R.id.phoneImage);
     }
 
     private void SendUserToLoginActivity() {

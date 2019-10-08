@@ -111,65 +111,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerButton" />
 
-    <TextView
-        android:id="@+id/viaSocialNetwokText"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="80dp"
-        android:text="Or Sign up Using "
-        android:textAlignment="center"
-        android:textColor="#FFFF"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
-
-    <ImageView
-        android:id="@+id/phoneImage"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fbImage"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viaSocialNetwokText"
-        app:srcCompat="@drawable/phone" />
-
-    <ImageView
-        android:id="@+id/fbImage"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tweeterImage"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/phoneImage"
-        app:layout_constraintTop_toBottomOf="@+id/viaSocialNetwokText"
-        app:srcCompat="@drawable/facebook" />
-
-    <ImageView
-        android:id="@+id/tweeterImage"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="137dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="25dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/fbImage"
-        app:layout_constraintTop_toBottomOf="@+id/viaSocialNetwokText"
-        app:srcCompat="@drawable/twitter" />
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <ImageView
+            android:id="@+id/phoneImage"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:srcCompat="@drawable/phone" />
+
+        <TextView
+            android:id="@+id/phoneNumberLoginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Log in with Phone Number "
+            android:textColor="#FFFF"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

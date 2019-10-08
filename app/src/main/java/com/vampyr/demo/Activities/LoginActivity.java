@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity{
 
     private Button loginButton;
     private EditText Email, password;
-    private TextView forgetPassword,creatNewAccount;
+    private TextView forgetPassword,creatNewAccount,phoneNumberLoginText;
     private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
     private DatabaseReference rootreference;
@@ -72,6 +72,14 @@ public class LoginActivity extends AppCompatActivity{
         });
 
         phoneImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,PhoneLoginActivity.class));
+                finish();
+            }
+        });
+
+        phoneNumberLoginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this,PhoneLoginActivity.class));
@@ -146,6 +154,7 @@ public class LoginActivity extends AppCompatActivity{
         loadingBar = new ProgressDialog(this);
         constraintLayout = (ConstraintLayout) findViewById(R.id.bgrelativeLayout);
         phoneImage = (ImageView) findViewById(R.id.phoneImage);
+        phoneNumberLoginText = (TextView) findViewById(R.id.phoneNumberLoginText);
     }
 
     private void SendUserToMainActivity() {
