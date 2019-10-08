@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/Edit"
+        android:title="Edit"/>
+
+    <item android:id="@+id/savePost"
+        android:title="Save this post"/>
+
+    <item android:id="@+id/report"
+        android:title="Report"/>
+
+    <item android:id="@+id/delete"
+        android:title="Delete"/>
+
+</menu>
