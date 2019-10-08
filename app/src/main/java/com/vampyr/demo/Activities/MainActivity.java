@@ -1,7 +1,9 @@
 package com.vampyr.demo.Activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -10,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /***********
+         * check internet Connection and load the appp
+         */
+
+//        if (!isConnected(MainActivity.this)){
+//            buildDialog(MainActivity.this).show();
+//        }else {
+//
+//        }
+
+        /***********
+         * check internet Connection and load the appp
+         */
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
@@ -126,7 +141,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Bottom Navigation Layout
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        Bundle intent = getIntent().getExtras();
+        if (intent != null){
+            String publisher = intent.getString("publisherID");
+
+            SharedPreferences.Editor editor = getSharedPreferences("PREFS",MODE_PRIVATE).edit();
+            editor.putString("profileid",publisher);
+            editor.apply();
+
+           // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+            startActivity(new Intent(MainActivity.this,UsersActivity.class));
+            finish();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -169,8 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
-
-        checkConnection();
 
     }
     @Override
@@ -223,17 +250,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void checkConnection(){
+    public boolean isConnected(Context context) {
 
-        ConnectivityManager  manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activerNetwork =manager.getActiveNetworkInfo();
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 
-        if (activerNetwork != null){
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
 
-          return;
+            android.net.NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())){
+                return true;
+            }else {
+                return false;
+            }
+
         }else {
-            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+            return false;
         }
+    }
+
+    public AlertDialog.Builder buildDialog(Context context){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("No network connection");
+        builder.setMessage("No internet connection. Connect to the internet and try again");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        return builder;
     }
 }

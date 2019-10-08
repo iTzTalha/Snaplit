@@ -3,6 +3,7 @@ package com.vampyr.demo.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -21,12 +22,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vampyr.demo.Adapter.CommentAdapter;
+import com.vampyr.demo.Model.Comment;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CommentsActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private CommentAdapter commentAdapter;
+    private List<Comment> commentList;
 
     EditText addComment;
     ImageView image_profile, post;
@@ -51,6 +60,15 @@ public class CommentsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        recyclerView = findViewById(R.id.recyler_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        commentList = new ArrayList<>();
+        commentAdapter = new CommentAdapter(this,commentList);
+        recyclerView.setAdapter(commentAdapter);
+
 
         addComment = findViewById(R.id.add_comment);
         image_profile = findViewById(R.id.image_profile);
@@ -106,6 +124,7 @@ public class CommentsActivity extends AppCompatActivity {
         });
 
         getImage();
+        readComment();
 
     }
 
@@ -130,6 +149,28 @@ public class CommentsActivity extends AppCompatActivity {
 
                 Users users = dataSnapshot.getValue(Users.class);
                 Glide.with(getApplicationContext()).load(users.getImageurl()).into(image_profile);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void readComment(){
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postID);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                commentList.clear();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Comment comment = snapshot.getValue(Comment.class);
+                    commentList.add(comment);
+                }
+
+                commentAdapter.notifyDataSetChanged();
             }
 
             @Override

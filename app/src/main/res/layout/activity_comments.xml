@@ -16,11 +16,17 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recyler_view"
-            android:layout_below="@+id/top"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyler_view"
+        android:layout_width="match_parent"
+        android:layout_height="618dp"
+        android:layout_above="@+id/top"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="1dp" />
+
+    <View style="@style/Divider"
+        android:layout_alignTop="@+id/top"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,12 +34,13 @@
         android:id="@+id/top"
         android:background="#fff"
         android:padding="8dp"
-        android:layout_below="@+id/toolbar">
+        android:layout_alignParentBottom="true">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/image_profile"/>
+
 
         <EditText
             android:layout_width="match_parent"
@@ -45,7 +52,8 @@
             android:layout_marginEnd="40dp"
             android:hint="Add comment"
             android:paddingStart="10dp"
-            android:background="@drawable/layout_addcomment"/>
+            android:maxLines="5"
+            android:background="@drawable/layout_addcomment_fill"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -57,9 +65,5 @@
             android:src="@drawable/ic_send_black_24dp"/>
 
     </RelativeLayout>
-
-    <View style="@style/Divider"
-        android:layout_alignBottom="@+id/top"/>
-
 
 </RelativeLayout>
