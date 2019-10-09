@@ -118,7 +118,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context, v);
+                final PopupMenu popupMenu = new PopupMenu(context, v);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -141,7 +141,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                                 Toast.makeText(context, "Report clicked!", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.savePost:
-                                Toast.makeText(context, "Post saved!", Toast.LENGTH_SHORT).show();
+                                    FirebaseDatabase.getInstance().getReference().child("Saves").child(firebaseUser.getUid())
+                                            .child(post.getPostid()).setValue(true);
                                 break;
                             default:
                                 return false;
@@ -151,13 +152,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 });
 
                 popupMenu.inflate(R.menu.post_menu);
-                if (!post.getPublisher().equals(firebaseUser.getUid())){
+                if (!post.getPublisher().equals(firebaseUser.getUid())) {
                     popupMenu.getMenu().findItem(R.id.Edit).setVisible(false);
                     popupMenu.getMenu().findItem(R.id.delete).setVisible(false);
                 }
                 popupMenu.show();
             }
         });
+
 
     }
 

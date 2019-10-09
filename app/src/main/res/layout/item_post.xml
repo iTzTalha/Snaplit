@@ -95,7 +95,7 @@
                 android:id="@+id/share"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="18dp"
                 android:layout_toEndOf="@+id/commentText"
                 android:src="@drawable/ic_share" />
 
