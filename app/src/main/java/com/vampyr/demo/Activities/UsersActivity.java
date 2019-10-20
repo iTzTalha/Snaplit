@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.Adapter.MyPhotoAdapter;
+import com.vampyr.demo.Fragments.PostDetailsFragment;
 import com.vampyr.demo.Model.Post;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
@@ -39,7 +41,7 @@ public class UsersActivity extends AppCompatActivity {
 
     ImageView goBack, btn_share;
     CircleImageView image_profile;
-    TextView follwers, following, posts, bio, username;
+    TextView follwers, following, posts, bio, username,FollowersTextView,FollowingTextVeiw;
     Button btn_profile, chatUser;
 
     FirebaseUser firebaseUser;
@@ -64,6 +66,8 @@ public class UsersActivity extends AppCompatActivity {
         username = findViewById(R.id.user_name);
         btn_share = findViewById(R.id.share);
         chatUser = findViewById(R.id.chatuser);
+        FollowersTextView = findViewById(R.id.followersTextView);
+        FollowingTextVeiw = findViewById(R.id.followingTextView);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -134,6 +138,45 @@ public class UsersActivity extends AppCompatActivity {
             }
         });
 
+        FollowersTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UsersActivity.this, FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Followers");
+                startActivity(intent);
+            }
+        });
+
+        FollowingTextVeiw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UsersActivity.this, FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Following");
+                startActivity(intent);
+            }
+        });
+
+        follwers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UsersActivity.this, FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Followers");
+                startActivity(intent);
+            }
+        });
+
+       following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UsersActivity.this, FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Following");
+                startActivity(intent);
+            }
+        });
 
     }
 

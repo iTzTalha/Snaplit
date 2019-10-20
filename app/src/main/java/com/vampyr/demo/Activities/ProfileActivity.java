@@ -186,6 +186,8 @@ public class ProfileActivity extends AppCompatActivity {
                         .start(ProfileActivity.this);
             }
         });
+
+
     }
 
     private String getFileExtention(Uri uri){

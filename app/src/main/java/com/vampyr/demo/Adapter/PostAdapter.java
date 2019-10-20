@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -29,6 +31,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.Activities.CommentsActivity;
+import com.vampyr.demo.Activities.FollowersActivity;
+import com.vampyr.demo.Activities.UsersActivity;
+import com.vampyr.demo.Fragments.PostDetailsFragment;
+import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Post;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
@@ -76,6 +82,45 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         isLiked(post.getPostid(), holder.image_like);
         nrLikes(holder.likeText, post.getPostid());
         getComments(post.getPostid(), holder.commentText);
+
+        holder.image_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = context.getSharedPreferences("PREFS", context.MODE_PRIVATE).edit();
+                editor.putString("profileid", post.getPublisher());
+                editor.apply();
+
+               // ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+                UserProfileActivity(context);
+            }
+        });
+
+
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = context.getSharedPreferences("PREFS", context.MODE_PRIVATE).edit();
+                editor.putString("profileid", post.getPublisher());
+                editor.apply();
+
+               // ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+                UserProfileActivity(context);
+            }
+        });
+
+
+//        holder.image_post.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SharedPreferences.Editor editor = context.getSharedPreferences("PREFS", context.MODE_PRIVATE).edit();
+//                editor.putString("postID", post.getPostid());
+//                editor.apply();
+//
+//                ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostDetailsFragment()).commit();
+//            }
+//        });
+
+
 
         holder.image_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +170,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         switch (item.getItemId()) {
                             case R.id.Edit:
                                 EditPost(post.getPostid());
-                                break;
+                                return true;
                             case R.id.delete:
                                 FirebaseDatabase.getInstance().getReference("Posts").child(post.getPostid())
                                         .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -136,18 +181,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                                         }
                                     }
                                 });
-                                break;
+                                return true;
                             case R.id.report:
                                 Toast.makeText(context, "Report clicked!", Toast.LENGTH_SHORT).show();
-                                break;
+                                return true;
                             case R.id.savePost:
                                     FirebaseDatabase.getInstance().getReference().child("Saves").child(firebaseUser.getUid())
                                             .child(post.getPostid()).setValue(true);
-                                break;
+                                return true;
                             default:
                                 return false;
                         }
-                        return true;
                     }
                 });
 
@@ -160,6 +204,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
         });
 
+        holder.likeText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FollowersActivity.class);
+                intent.putExtra("id", post.getPostid());
+                intent.putExtra("title","Likes");
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -323,5 +376,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
             }
         });
+    }
+
+    public static void UserProfileActivity(Context context) {
+        context.startActivity(new Intent(context, UsersActivity.class));
     }
 }

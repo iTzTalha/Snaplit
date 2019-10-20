@@ -76,7 +76,7 @@ public class DiscoverFragment extends Fragment {
 
         mUser = new ArrayList<>();
 
-        userAdapter = new UserAdapter(getContext(), mUser);
+        userAdapter = new UserAdapter(getContext(), mUser, true);
         recyclerView.setAdapter(userAdapter);
 
 

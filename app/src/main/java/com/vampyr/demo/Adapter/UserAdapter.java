@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vampyr.demo.Activities.MainActivity;
 import com.vampyr.demo.Activities.UsersActivity;
 import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
@@ -34,11 +35,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context mContext;
     private List<Users> mUsers;
 
+    private boolean isFragment;
+
     FirebaseUser firebaseUser;
 
-    public UserAdapter(Context mContext, List<Users> mUsers) {
+    public UserAdapter(Context mContext, List<Users> mUsers, boolean isFragment) {
         this.mContext = mContext;
         this.mUsers = mUsers;
+        this.isFragment = isFragment;
     }
 
     @NonNull
@@ -71,14 +75,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                editor.putString("profileid", users.getId());
-                editor.apply();
-
-               // ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
-                startActivity(mContext);
-
-
+                    editor.putString("profileid", users.getId());
+                    editor.apply();
+                    startActivity(mContext);
+//                if (isFragment) {
+//                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+//                    editor.putString("profileid", users.getId());
+//                    editor.apply();
+//
+//                    // ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+//                    startActivity(mContext);
+//
+//                }else {
+//                    Intent intent = new Intent(mContext, MainActivity.class);
+//                    intent.putExtra("publisherid", users.getId());
+//                    mContext.startActivity(intent);
+//                }
             }
         });
 

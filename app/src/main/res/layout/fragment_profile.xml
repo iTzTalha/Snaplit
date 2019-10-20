@@ -168,6 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
+                        android:id="@+id/followersTextView"
                         android:text="Followers"
                         android:textColor="#000000" />
 
@@ -195,6 +196,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
                         android:text="Following"
+                        android:id="@+id/followingTextView"
                         android:textColor="#000000" />
 
 

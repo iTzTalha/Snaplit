@@ -8,6 +8,19 @@
     tools:context=".Fragments.ProfileFragment"
     android:screenOrientation="portrait">
 
+
+    <FrameLayout
+        android:id="@+id/fragment_container2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
@@ -191,6 +204,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/followersTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -221,6 +235,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
+                        android:id="@+id/followingTextView"
                         android:text="Following"
                         android:textColor="#000000" />
 

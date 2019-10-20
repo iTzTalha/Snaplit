@@ -37,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.Fragments.ChatFragment;
 import com.vampyr.demo.Fragments.HomeFragment;
 import com.vampyr.demo.Fragments.DiscoverFragment;
+import com.vampyr.demo.Fragments.PostDetailsFragment;
 import com.vampyr.demo.Fragments.PostFragment;
 import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }, 2000);
 
-        } else {
+        }else {
             super.onBackPressed();
             return;
         }

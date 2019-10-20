@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vampyr.demo.Activities.FollowersActivity;
 import com.vampyr.demo.Activities.ProfileActivity;
 import com.vampyr.demo.Adapter.MyPhotoAdapter;
 import com.vampyr.demo.Model.Post;
@@ -50,7 +51,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView btn_share;
     CircleImageView image_profile;
-    TextView follwers, following, posts, bio, username;
+    TextView follwers, following, posts, bio, username, FollowersTextView, FollowingTextView;
     Button btn_profile;
     ImageButton myPhotos, mySaves;
 
@@ -101,6 +102,8 @@ public class ProfileFragment extends Fragment {
         username = view.findViewById(R.id.user_name);
         myPhotos = view.findViewById(R.id.myPosts);
         mySaves = view.findViewById(R.id.myFavorite);
+        FollowersTextView = view.findViewById(R.id.followersTextView);
+        FollowingTextView = view.findViewById(R.id.followingTextView);
 
         /************
          * recyclerView for myPosts
@@ -162,6 +165,46 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 recyclerView.setVisibility(View.GONE);
                 recyclerView_saves.setVisibility(View.VISIBLE);
+            }
+        });
+
+        follwers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Followers");
+                startActivity(intent);
+            }
+        });
+
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Following");
+                startActivity(intent);
+            }
+        });
+
+        FollowersTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Followers");
+                startActivity(intent);
+            }
+        });
+
+        FollowingTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Following");
+                startActivity(intent);
             }
         });
 
