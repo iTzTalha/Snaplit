@@ -1,6 +1,7 @@
 package com.vampyr.demo.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.vampyr.demo.Activities.MainActivity;
 import com.vampyr.demo.Activities.UsersActivity;
 import com.vampyr.demo.Fragments.PostDetailsFragment;
 import com.vampyr.demo.Model.Post;
+import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
 
 import java.util.List;
@@ -23,10 +26,12 @@ public class MyPhotoAdapter extends RecyclerView.Adapter<MyPhotoAdapter.ViewHold
 
     private Context context;
     private List<Post> mPost;
+    private boolean isFragment;
 
-    public MyPhotoAdapter(Context context, List<Post> mPost) {
+    public MyPhotoAdapter(Context context, List<Post> mPost, boolean isFragment) {
         this.context = context;
         this.mPost = mPost;
+        this.isFragment = isFragment;
     }
 
     @NonNull
@@ -48,12 +53,19 @@ public class MyPhotoAdapter extends RecyclerView.Adapter<MyPhotoAdapter.ViewHold
         holder.post_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = context.getSharedPreferences("PREFS", context.MODE_PRIVATE).edit();
-                editor.putString("postID", post.getPostid());
-                editor.apply();
 
-                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostDetailsFragment()).commit();
+                if (isFragment) {
+                    SharedPreferences.Editor editor = context.getSharedPreferences("PREFS", context.MODE_PRIVATE).edit();
+                    editor.putString("postID", post.getPostid());
+                    editor.apply();
 
+                    ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostDetailsFragment()).commit();
+                } else {
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("postID", post.getPostid());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
             }
         });
 

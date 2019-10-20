@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 */
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

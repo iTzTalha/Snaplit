@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vampyr.demo.Adapter.MyPhotoAdapter;
-import com.vampyr.demo.Fragments.PostDetailsFragment;
 import com.vampyr.demo.Model.Post;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
@@ -82,7 +80,7 @@ public class UsersActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(linearLayoutManager);
         postList = new ArrayList<>();
-        myPhotoAdapter = new MyPhotoAdapter(getApplicationContext(), postList);
+        myPhotoAdapter = new MyPhotoAdapter(getApplicationContext(), postList,false);
         recyclerView.setAdapter(myPhotoAdapter);
 
         goBack.setOnClickListener(new View.OnClickListener() {

@@ -113,7 +113,7 @@ public class ProfileFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(linearLayoutManager);
         postList = new ArrayList<>();
-        myPhotoAdapter = new MyPhotoAdapter(getContext(), postList);
+        myPhotoAdapter = new MyPhotoAdapter(getContext(), postList,true);
         recyclerView.setAdapter(myPhotoAdapter);
 
         /************
@@ -125,7 +125,7 @@ public class ProfileFragment extends Fragment {
         LinearLayoutManager linearLayoutManager_saves = new GridLayoutManager(getContext(), 3);
         recyclerView_saves.setLayoutManager(linearLayoutManager_saves);
         postList_saves = new ArrayList<>();
-        myPhotoAdapter_saves = new MyPhotoAdapter(getContext(), postList_saves);
+        myPhotoAdapter_saves = new MyPhotoAdapter(getContext(), postList_saves,true);
         recyclerView_saves.setAdapter(myPhotoAdapter_saves);
 
         recyclerView.setVisibility(View.VISIBLE);

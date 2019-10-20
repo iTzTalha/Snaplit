@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,7 +70,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final Post post = mPost.get(position);
 
-        Glide.with(context).load(post.getPostimage()).into(holder.image_post);
+        Glide.with(context).load(post.getPostimage())
+                .apply(new RequestOptions().placeholder(R.drawable.image_placeholder))
+                .into(holder.image_post);
 
         if (post.getDescription().equals("")) {
             holder.description.setVisibility(View.GONE);

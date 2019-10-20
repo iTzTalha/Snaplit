@@ -45,5 +45,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bar" />
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_circular"
+        android:layout_centerInParent="true"/>
+
 </RelativeLayout>
 
