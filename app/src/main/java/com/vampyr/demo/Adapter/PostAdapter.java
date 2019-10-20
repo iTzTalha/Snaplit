@@ -172,7 +172,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                                 EditPost(post.getPostid());
                                 return true;
                             case R.id.delete:
-                                FirebaseDatabase.getInstance().getReference("Posts").child(post.getPostid())
+                                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+                                 FirebaseDatabase.getInstance().getReference("Posts").child(post.getPostid())
                                         .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {

@@ -52,12 +52,8 @@ public class MyPhotoAdapter extends RecyclerView.Adapter<MyPhotoAdapter.ViewHold
                 editor.putString("postID", post.getPostid());
                 editor.apply();
 
-                if (context.equals(UsersActivity.class)) {
-                    ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, new PostDetailsFragment()).commit();
-                } else {
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostDetailsFragment()).commit();
 
-                    ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostDetailsFragment()).commit();
-                }
             }
         });
 
