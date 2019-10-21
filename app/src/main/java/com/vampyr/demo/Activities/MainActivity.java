@@ -59,9 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ProgressDialog loadingBar;
 
     CircleImageView nav_image;
-    TextView nav_username;
+    TextView nav_username,followers,followersTextView,following,followingTextView;
 
     SharedPreferences.Editor editor;
+
+    String profileid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View headView = navigationView.getHeaderView(0);
         nav_image = headView.findViewById(R.id.nav_image);
         nav_username = headView.findViewById(R.id.nav_username);
+        followers = headView.findViewById(R.id.followers);
+        followersTextView = headView.findViewById(R.id.followersTextView);
+        following = headView.findViewById(R.id.following);
+        followingTextView = headView.findViewById(R.id.followingTextView);
+
    /*     nav_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +123,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new ProfileFragment()).commit();
             }
         });
-*/
+
+        followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Followers");
+                startActivity(intent);
+            }
+        });
+
+        followersTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Followers");
+                startActivity(intent);
+            }
+        });
+
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Following");
+                startActivity(intent);
+            }
+        });
+
+        followingTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FollowersActivity.class);
+                intent.putExtra("id", profileid);
+                intent.putExtra("title","Following");
+                startActivity(intent);
+            }
+        });
+    */
+        getFollowers();
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -287,5 +335,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         return builder;
+    }
+
+    private void getFollowers(){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        profileid = sharedPreferences.getString("profileid", "none");
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Follow").child(profileid).child("followers");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                followers.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference referencel = FirebaseDatabase.getInstance().getReference()
+                .child("Follow").child(profileid).child("following");
+        referencel.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                following.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }
