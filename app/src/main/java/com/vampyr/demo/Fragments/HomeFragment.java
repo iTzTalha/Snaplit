@@ -1,10 +1,12 @@
 package com.vampyr.demo.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vampyr.demo.Activities.NotificationsActivity;
 import com.vampyr.demo.Adapter.PostAdapter;
 import com.vampyr.demo.Model.Post;
 import com.vampyr.demo.R;
@@ -30,6 +33,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+
+    private ImageView notifications;
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
@@ -49,6 +54,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        notifications = view.findViewById(R.id.notification);
+
         recyclerView = view.findViewById(R.id.recyler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -62,6 +69,14 @@ public class HomeFragment extends Fragment {
         progressBar = view.findViewById(R.id.progress_circular);
 
         checkFollowing();
+
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

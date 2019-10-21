@@ -26,6 +26,7 @@ import com.vampyr.demo.Fragments.ProfileFragment;
 import com.vampyr.demo.Model.Users;
 import com.vampyr.demo.R;
 
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -77,19 +78,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     editor.putString("profileid", users.getId());
                     editor.apply();
                     startActivity(mContext);
-//                if (isFragment) {
-//                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-//                    editor.putString("profileid", users.getId());
-//                    editor.apply();
-//
-//                    // ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
-//                    startActivity(mContext);
-//
-//                }else {
-//                    Intent intent = new Intent(mContext, MainActivity.class);
-//                    intent.putExtra("publisherid", users.getId());
-//                    mContext.startActivity(intent);
-//                }
             }
         });
 

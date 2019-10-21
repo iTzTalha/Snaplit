@@ -32,8 +32,8 @@
         <activity
             android:name=".Activities.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activities.RegistrationActivity"
             android:screenOrientation="portrait"
@@ -69,6 +69,8 @@
         <activity
             android:name=".Activities.FollowersActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".Activities.NotificationsActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

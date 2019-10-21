@@ -38,6 +38,7 @@ import com.vampyr.demo.R;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -369,4 +370,5 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
 }

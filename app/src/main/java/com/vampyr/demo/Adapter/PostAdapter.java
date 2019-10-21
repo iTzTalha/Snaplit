@@ -65,7 +65,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final Post post = mPost.get(position);
@@ -133,6 +133,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             .child(post.getPostid())
                             .child(firebaseUser.getUid())
                             .setValue(true);
+                    addNotifications(post.getPublisher(),post.getPostid());
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Likes")
                             .child(post.getPostid())
@@ -384,5 +385,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public static void UserProfileActivity(Context context) {
         context.startActivity(new Intent(context, UsersActivity.class));
+    }
+
+    private void addNotifications(String userid, String postid){
+        DatabaseReference reference =FirebaseDatabase.getInstance().getReference("Notifications").child(userid);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", firebaseUser.getUid());
+        hashMap.put("text","Liked your post");
+        hashMap.put("postid",postid);
+        hashMap.put("ispost",true);
+
+        reference.push().setValue(hashMap);
     }
 }

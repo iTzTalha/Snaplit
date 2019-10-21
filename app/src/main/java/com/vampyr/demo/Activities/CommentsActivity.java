@@ -140,6 +140,7 @@ public class CommentsActivity extends AppCompatActivity {
         hashMap.put("commentID", commentID);
 
         reference.child(commentID).setValue(hashMap);
+        addNotifications();
         addComment.setText("");
     }
 
@@ -181,5 +182,17 @@ public class CommentsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void addNotifications(){
+        DatabaseReference reference =FirebaseDatabase.getInstance().getReference("Notifications").child(publisherID);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", firebaseUser.getUid());
+        hashMap.put("text","Commented: " +addComment.getText().toString().trim());
+        hashMap.put("postid",postID);
+        hashMap.put("ispost",true);
+
+        reference.push().setValue(hashMap);
     }
 }
