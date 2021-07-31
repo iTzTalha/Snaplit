@@ -17,3 +17,8 @@ A clone of the Instagram app made with Android Studio and Firebase / Firestore.
 * Chat Screen
   * Chat with any user
   * Share images while chatting
+  
+# What I Learned
+* Firebase Email Authentication
+* Firebase Database
+* Firebase Cloud-Storage
