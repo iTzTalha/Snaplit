@@ -1,2 +1,19 @@
-# Snaplit
-Demo App in Android Studio
+# Snaplit (Instagram Clone)
+A clone of the Instagram app made with Android Studio and Firebase / Firestore.
+
+# Features
+* Custom photo feed based on who you follow
+* Post photo posts from camera or gallery
+  * Like posts
+    * View all likes on a post
+  * Comment on posts
+    * View all comments on a post
+* Search for users
+  * Search screen showing all images except your own
+  * Search based on usernames
+* Profile Screen
+  * Follow / Unfollow Users
+  * Edit profile
+* Chat Screen
+  * Chat with any user
+  * Share images while chatting
