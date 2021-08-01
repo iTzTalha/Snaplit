@@ -1,4 +1,8 @@
-# Snaplit (Instagram Clone)
+<p align="center">
+  <img src="https://www.edigitalagency.com.au/wp-content/uploads/instagram-logo-svg-vector-for-print.svg" height="25%" width="25%">
+</p>
+<h1 align="center">Snaplit (Instagram Clone)</h1>
+
 A clone of the Instagram app made with Android Studio and Firebase / Firestore.
 
 # Features
