@@ -23,3 +23,6 @@ A clone of the Instagram app made with Android Studio and Firebase / Firestore.
 * Firebase Email Authentication
 * Firebase Database
 * Firebase Cloud-Storage
+
+# Show Your Support
+Give a ⭐️ if you like this project!
