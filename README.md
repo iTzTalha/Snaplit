@@ -5,7 +5,7 @@
 
 A clone of the Instagram app made with Android Studio and Firebase / Firestore.
 
-# Features
+# Features 🔥
 * Custom photo feed based on who you follow
 * Post photo posts from camera or gallery
   * Like posts
@@ -22,7 +22,7 @@ A clone of the Instagram app made with Android Studio and Firebase / Firestore.
   * Chat with any user
   * Share images while chatting
   
-# What I Learned
+# What I Learned 📙
 * Android Development
 * Firebase Email Authentication
 * Firebase Database
